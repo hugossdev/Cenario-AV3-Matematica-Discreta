@@ -1,0 +1,163 @@
+/* Importando o reset e fundo do arquivo anterior se quiser, 
+   mas aqui repito o essencial para funcionar sozinho */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #020514;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fundo Grid (Mesmo da tela do jogo) */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+}
+
+/* Container com brilho de fundo */
+.win-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Efeito de "Luz divina" atrás do card */
+.win-container::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* O Cartão Central */
+.win-card {
+    background: rgba(20, 20, 35, 0.9);
+    border: 2px solid #ffd700;
+    border-radius: 20px;
+    padding: 3rem 4rem;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+    backdrop-filter: blur(10px);
+    max-width: 600px;
+    width: 90%;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Badge "Você Venceu" */
+.header-badge {
+    display: inline-block;
+    background: #2ecc71;
+    color: #0a3d1e;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+/* Animação do Troféu */
+.trophy-animation {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+}
+
+/* Títulos */
+.congrats-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #ffffff, #a5a5a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #ccc;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+/* O Valor do Prêmio (Estilo Metálico Dourado) */
+.grand-prize {
+    font-size: 4rem;
+    font-weight: 900;
+    margin: 2rem 0;
+    color: #ffd700;
+    text-shadow: 0 2px 0 #b8860b, 0 0 20px rgba(255, 215, 0, 0.5);
+    animation: pulse-gold 2s infinite;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.grand-prize .currency {
+    font-size: 2rem;
+    color: #ffeaa7;
+}
+
+/* Botão Jogar Novamente */
+.btn-restart {
+    background: linear-gradient(180deg, #0056b3 0%, #003580 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.4);
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.btn-restart:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 86, 179, 0.6);
+    filter: brightness(1.2);
+}
+
+/* --- ANIMAÇÕES --- */
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-gold {
+    0% { transform: scale(1); text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+    50% { transform: scale(1.05); text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+    100% { transform: scale(1); text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .win-card { padding: 2rem; }
+    .congrats-title { font-size: 2.2rem; }
+    .grand-prize { font-size: 2.5rem; }
+}

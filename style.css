@@ -1,0 +1,112 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1117; /* Fundo escuro padrão dev */
+    background-image: radial-gradient(circle at center, #161b22 0%, #0d1117 100%);
+    color: #ffffff;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container principal que ocupa toda a tela */
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem; /* Espaçamento entre os elementos */
+    margin-bottom: 4rem; /* Empurra um pouco para cima para equilíbrio visual */
+}
+
+/* Título Principal */
+.title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    background: linear-gradient(90deg, #ffffff, #e1e4e8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Subtítulo */
+.subtitle {
+    font-size: 1.25rem;
+    color: #8b949e; /* Cinza claro para contraste */
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+/* Botão Começar */
+.btn-start {
+    display: inline-block;
+    background-color: #238636; /* Verde estilo GitHub/Sucesso */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+}
+
+.btn-start:hover {
+    background-color: #2ea043;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(35, 134, 54, 0.6);
+}
+
+.btn-start:active {
+    transform: translateY(0);
+}
+
+/* Rodapé */
+.footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 0.9rem;
+    color: #484f58;
+}
+
+.footer a {
+    color: #58a6ff; /* Azul link */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .btn-start {
+        width: 100%;
+        max-width: 300px;
+    }
+}
