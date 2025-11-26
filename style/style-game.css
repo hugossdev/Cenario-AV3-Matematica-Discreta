@@ -66,7 +66,6 @@ body::before {
     text-align: center;
     border: 2px solid #ff3333;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-    /* Garante que o CSS normal não seja afetado pela animação quando ela não estiver rodando */
     transition: all 0.2s ease-in-out;
 }
 
@@ -373,33 +372,115 @@ body::before {
 }
 
 /* ---------------------------------------------------------------------- */
-/* --- NOVO: ANIMAÇÃO DE FLASH (Pisca Amarelo/Branco no botão de resposta) --- */
+/* --- CORREÇÃO DEFINITIVA: ANIMAÇÃO DE FLASH (USANDO BRILHO/FILTRO) --- */
 /* ---------------------------------------------------------------------- */
 
-/* 1. Keyframes para o Flash (Amarelo -> Branco -> Amarelo) */
-@keyframes flash-confirm {
-    0% {
-        /* Cor normal de seleção (amarelo escuro) */
-        background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
-        border-color: #ffe66d;
+/* 1. Keyframes ajustados para usar FILTRO em vez de Background.
+      Isso resolve o bug do fundo sumir, pois navegadores não animam gradientes bem. */
+@keyframes flash-background {
+    0%, 100% {
+        /* Fundo base: Amarelo do estado 'selected' */
+        background-color: #ffd700; 
     }
-
     50% {
-        /* Cor clara (Branco brilhante) */
-        background: #dde773;
-        border-color: #dde773;
-        box-shadow: 0 0 25px #ffe66d, 0 0 10px #ffffff;
-    }
-
-    100% {
-        /* Retorna à cor normal de seleção */
-        background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
-        border-color: #ffe66d;
+        /* Fundo: Branco para criar o efeito de "flash" */
+        background-color: #ffffff; 
     }
 }
 
-/* 2. Classe que aplica a animação no botão selecionado após confirmação */
+/* 2. Classe aplicada pelo JS ao confirmar */
 .answer-btn.flash-processing {
-    animation: flash-confirm 0.5s ease 5;
-    /* 0.2s * 10 repetições = 2 segundos */
+    /* Duração: 0.2s * 15 repetições = 3.0 segundos */
+    animation: flash-background 0.2s linear 15; 
+    
+    /* 🔑 CORREÇÃO CHAVE: Força a cor sólida (sem gradiente) para o fundo da animação funcionar, 
+       usando !important para sobrescrever o gradiente do .selected. */
+    background: #ffd700 !important; 
+
+    /* Garante que o texto continue PRETO e visível */
+    color: #000 !important;
+    border-color: #fff; /* Borda branca ajuda no efeito de flash */
+    
+    /* Importante: Remove transições suaves para o pisca ser rápido */
+    transition: none !important; 
+}
+
+/* Garante que os elementos internos também tenham a cor correta */
+.answer-btn.flash-processing .text,
+.answer-btn.flash-processing .badge {
+    color: #000 !important;
+}
+
+
+/* ======================================================= */
+/* 🔑 ANIMAÇÃO DE APARECIMENTO (SLIDE-IN) */
+/* ======================================================= */
+
+/* 1. Define a animação de deslize (Slide-in) */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 2. Estilo para esconder o texto durante a troca de pergunta */
+.question-box.hide-text .question-text {
+    opacity: 0;
+    transition: opacity 0.2s ease-out; 
+}
+
+/* 3. ESTADO INICIAL DOS ELEMENTOS ANTES DA ANIMAÇÃO (Apenas para o reset/inicialização) */
+
+/* A. Question Box - Estado padrão (não animado) */
+.question-box {
+    opacity: 1; 
+    transform: translateX(0);
+    transition: all 0.2s ease-in-out; 
+}
+
+/* B. Botões individuais - Estado padrão (não animado) */
+.answer-btn {
+    /* Estado visual final, para quando a animação terminar e a classe .animate-in for removida */
+    opacity: 1; 
+    transform: translateX(0);
+}
+
+/* 4. APLICAÇÃO DA ANIMAÇÃO (QUANDO O JS ADICIONA .animate-in) */
+
+/* A. Question Box animado */
+.question-box.animate-in {
+    /* 🚩 NOVO: Define o estado inicial da animação aqui, para que o navegador a re-execute. */
+    opacity: 0; 
+    transform: translateX(-100%); 
+    /* Aplica a animação: */
+    animation: slideIn 0.8s ease-out forwards; 
+}
+
+
+/* B. Botões individuais animados com delay */
+.answer-btn.animate-in {
+    /* 🚩 NOVO: Define o estado inicial da animação aqui. */
+    opacity: 0; 
+    transform: translateX(-100%); 
+    /* Aplica a animação de base */
+    animation: slideIn 1s ease-out forwards;
+}
+
+/* C. Define o atraso individual para cada botão animado */
+.answer-btn:nth-child(1).animate-in {
+    animation-delay: 0.1s; 
+}
+.answer-btn:nth-child(2).animate-in {
+    animation-delay: 0.3s; 
+}
+.answer-btn:nth-child(3).animate-in {
+    animation-delay: 0.5s; 
+}
+.answer-btn:nth-child(4).animate-in {
+    animation-delay: 0.7s; 
 }
