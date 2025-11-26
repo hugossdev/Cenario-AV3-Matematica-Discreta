@@ -375,43 +375,27 @@ body::before {
 /* --- CORREÇÃO DEFINITIVA: ANIMAÇÃO DE FLASH (USANDO BRILHO/FILTRO) --- */
 /* ---------------------------------------------------------------------- */
 
-/* 1. Keyframes ajustados para usar FILTRO em vez de Background.
-      Isso resolve o bug do fundo sumir, pois navegadores não animam gradientes bem. */
-@keyframes flash-background {
-    0%, 100% {
-        /* Fundo base: Amarelo do estado 'selected' */
-        background-color: #ffd700; 
-    }
-    50% {
-        /* Fundo: Branco para criar o efeito de "flash" */
-        background-color: #ffffff; 
-    }
+@keyframes flash-overlay {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
 }
 
-/* 2. Classe aplicada pelo JS ao confirmar */
+/* 2. Configuração do pseudo-elemento */
 .answer-btn.flash-processing {
-    /* Duração: 0.2s * 15 repetições = 3.0 segundos */
-    animation: flash-background 0.2s linear 15; 
-    
-    /* 🔑 CORREÇÃO CHAVE: Força a cor sólida (sem gradiente) para o fundo da animação funcionar, 
-       usando !important para sobrescrever o gradiente do .selected. */
-    background: #ffd700 !important; 
-
-    /* Garante que o texto continue PRETO e visível */
-    color: #000 !important;
-    border-color: #fff; /* Borda branca ajuda no efeito de flash */
-    
-    /* Importante: Remove transições suaves para o pisca ser rápido */
-    transition: none !important; 
+    position: relative;
+    overflow: hidden;
 }
 
-/* Garante que os elementos internos também tenham a cor correta */
-.answer-btn.flash-processing .text,
-.answer-btn.flash-processing .badge {
-    color: #000 !important;
+.answer-btn.flash-processing::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.85); /* brilho branco */
+    opacity: 0;
+    animation: flash-overlay 0.15s linear 15;
+    pointer-events: none;
+    border-radius: inherit;
 }
-
-
 /* ======================================================= */
 /* 🔑 ANIMAÇÃO DE APARECIMENTO (SLIDE-IN) */
 /* ======================================================= */
