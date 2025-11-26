@@ -20,7 +20,7 @@ const actionsDiv = document.querySelector(".actions");
 
 // Variáveis de controle
 let atual = 0;
-const MAX_PERGUNTAS = 1;
+const MAX_PERGUNTAS = 20;
 let acertosTotais = 0;
 let selectedIndex = null; 
 
