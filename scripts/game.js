@@ -171,89 +171,75 @@ function verificarResposta(indiceUsuario) {
     const perguntaAtual = perguntas[atual];
     const correta = perguntaAtual.correta;
 
-    // Identifica o botão que foi selecionado e agora será processado
     const clickedButton = document.querySelector(`.answer-btn[data-indice="${indiceUsuario}"]`);
 
     // A. ATIVA O EFEITO FLASH NO BOTÃO SELECIONADO
     if (clickedButton) {
-        // 🚩 CORREÇÃO PARA O FLASH: Re-adiciona 'selected' para garantir a cor de fundo amarela (contraste)
         clickedButton.classList.add('selected'); 
         clickedButton.classList.add('flash-processing'); 
     }
 
-    // Desabilita as ações do footer para evitar cliques duplos
     actionsDiv.style.pointerEvents = 'none';
 
-    // Desabilita todos os botões imediatamente
     answerButtons.forEach(btn => {
         btn.disabled = true;
     });
 
-    
-    // B. LÓGICA DO JOGO INICIADA APÓS O TEMPO DO FLASH (3 segundos)
     setTimeout(() => {
-        // PARA O HEARTBEAT
         pararAudioHeartbeat();
 
-        // Remove a classe flash e selected
         if (clickedButton) {
             clickedButton.classList.remove('flash-processing');
-            // Removemos .selected APÓS o flash, garantindo o contraste durante a animação.
-            clickedButton.classList.remove("selected"); 
+            clickedButton.classList.remove('selected'); 
+        }
+
+        // NOVO COMPORTAMENTO:
+        // Após o flash, a alternativa clicada fica *verde* antes de processar correta/errada
+        if (clickedButton) {
+            clickedButton.classList.add("correct");
         }
 
         if (indiceUsuario === correta) {
-            // Lógica de resposta correta
-            const btnCorreto = document.querySelector(`.answer-btn[data-indice="${correta}"]`);
-            btnCorreto.classList.add("correct");
 
+            // Se for correta, mantém o verde normal (já está .correct)
             acertosTotais++;
 
-            // 🔊 TOCA ÁUDIO CERTA
             tocarAudioCerta(); 
             
-            // LÓGICA DE TRANSIÇÃO (Certa -> Aplausos -> Próxima Pergunta) 
             audioCerta.onended = () => {
-                
-                // 1. Toca o Áudio de Aplausos imediatamente após o audioCerta terminar
                 tocarAudioAplausos();
-
-                // 2. Define a ação a ser executada APÓS o audioAplausos terminar
                 audioAplausos.onended = () => {
                     setTimeout(() => {
                         if (acertosTotais >= MAX_PERGUNTAS) {
-                            // Fim de jogo
                             audioFundoGame.pause(); 
                             window.location.href = "../pages/endgame.html";
                         } else {
-                            // Próxima pergunta
                             atual++;
                             carregarPergunta();
                         }
-                        // Limpa os listeners para evitar que sejam disparados novamente
                         audioCerta.onended = null; 
                         audioAplausos.onended = null; 
-                    }, 1000); // 1 segundo de delay após o término do áudio de Aplausos
+                    }, 1000);
                 };
             };
 
-
         } else {
-            // 🔊 TOCA ÁUDIO ERRADA
+
             tocarAudioErrada(); 
             
-            // Lógica de resposta incorreta
-            const btnErrado = clickedButton;
-            btnErrado.classList.add("incorrect");
+            // ERRADA: Tira o verde e aplica vermelho
+            clickedButton.classList.remove("correct");
+            clickedButton.classList.add("incorrect");
 
+            // Botão correto continua verde
             const btnCorreto = document.querySelector(`.answer-btn[data-indice="${correta}"]`);
             btnCorreto.classList.add("correct");
 
             exibirFeedbackErro(perguntaAtual, indiceUsuario, correta);
         }
-    }, 3000); // 3 segundos 
-    
-    // Zera o índice *após* o processamento ter começado
+
+    }, 3000); // Tempo do flash
+
     selectedIndex = null; 
 }
 

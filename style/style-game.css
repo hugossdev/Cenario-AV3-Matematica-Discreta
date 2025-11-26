@@ -468,3 +468,33 @@ body::before {
 .answer-btn:nth-child(4).animate-in {
     animation-delay: 0.7s; 
 }
+
+/* ======================================================= */
+/* ESTADO FINAL VERDE (após o flash) */
+/* ======================================================= */
+
+.answer-btn.correct {
+    background: linear-gradient(180deg, #4CAF50 0%, #2e7d32 100%);
+    border-color: #a8ffb0;
+    color: #fff !important;
+    transform: scale(1.03);
+    box-shadow: 0 0 18px rgba(76, 175, 80, 0.7);
+}
+
+.answer-btn.correct .text,
+.answer-btn.correct .badge {
+    color: #000000 !important;
+}
+
+/* Vermelho para errada */
+.answer-btn.incorrect {
+    background: linear-gradient(180deg, #b30000 0%, #6a0000 100%);
+    border-color: #ff4d4d;
+    color: #fff !important;
+    box-shadow: 0 0 18px rgba(255, 0, 0, 0.7);
+}
+
+.answer-btn.incorrect .text,
+.answer-btn.incorrect .badge {
+    color: #fff !important;
+}
