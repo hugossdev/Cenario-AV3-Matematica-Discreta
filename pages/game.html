@@ -21,25 +21,25 @@
 
             <div class="answers-list">
 
-                <button class="answer-btn" data-indice="0">
+                <button class="answer-btn" data-indice="0" onclick="selectAnswer(this)">
                     <span class="badge">A</span>
                     <span class="text"></span>
-                </button>
+                    <span class="confirm-btn">Confirmar</span> </button>
 
-                <button class="answer-btn" data-indice="1">
+                <button class="answer-btn" data-indice="1" onclick="selectAnswer(this)">
                     <span class="badge">B</span>
                     <span class="text"></span>
-                </button>
+                    <span class="confirm-btn">Confirmar</span> </button>
 
-                <button class="answer-btn" data-indice="2">
+                <button class="answer-btn" data-indice="2" onclick="selectAnswer(this)">
                     <span class="badge">C</span>
                     <span class="text"></span>
-                </button>
+                    <span class="confirm-btn">Confirmar</span> </button>
 
-                <button class="answer-btn" data-indice="3">
+                <button class="answer-btn" data-indice="3" onclick="selectAnswer(this)">
                     <span class="badge">D</span>
                     <span class="text"></span>
-                </button>
+                    <span class="confirm-btn">Confirmar</span> </button>
 
             </div>
 
@@ -78,6 +78,19 @@
             <button id="start-new-game-btn">Começar um novo jogo</button>
         </div>
     </div>
+
+    <script>
+        function selectAnswer(btn) {
+            // Remove a classe 'selected' de todos os botões
+            const allButtons = document.querySelectorAll('.answer-btn');
+            allButtons.forEach(button => {
+                button.classList.remove('selected');
+            });
+
+            // Adiciona a classe 'selected' apenas ao botão clicado
+            btn.classList.add('selected');
+        }
+    </script>
 
     <script type="module" src="../scripts/game.js"></script>
 

@@ -264,3 +264,70 @@ body::before {
 #start-new-game-btn:hover {
     background-color: #45a049;
 }
+
+/* --- EFEITOS DE SELEÇÃO E CONFIRMAÇÃO --- */
+
+/* Ajuste no botão pai para posicionamento do Confirmar */
+.answer-btn {
+    position: relative; /* FUNDAMENTAL para que o .confirm-btn funcione */
+    overflow: hidden; 
+    /* Manter o restante do seu CSS para .answer-btn */
+}
+
+/* 1. ESTADO SELECIONADO (Classe .selected adicionada via JS) */
+.answer-btn.selected {
+    /* Gradiente Dourado/Amarelo */
+    background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
+    border-color: #ffe66d;
+    transform: scale(1.02); 
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    /* Retirando o hover default que pode conflitar quando selecionado */
+    filter: none;
+}
+
+/* Muda a cor do texto e do badge para preto para dar contraste no amarelo */
+.answer-btn.selected .text,
+.answer-btn.selected .badge {
+    color: #000;
+}
+
+.answer-btn.selected .badge {
+    /* Ajusta a cor do texto do badge para preto */
+    color: #000;
+}
+
+
+/* 2. BOTÃO CONFIRMAR (Oculto por padrão) */
+.confirm-btn {
+    display: none; /* Escondido inicialmente */
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    /* Gradiente Verde (Cor do Confirmar na imagem) */
+    background: linear-gradient(to bottom, #4CAF50, #368739); 
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 0 2rem;
+    align-items: center; 
+    justify-content: center;
+    border-left: 2px solid rgba(255,255,255,0.3);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    animation: slideInRight 0.3s ease-out; /* Animação de entrada */
+    width: 20%; /* Define a largura para que o botão tome um espaço fixo */
+    min-width: 120px;
+    font-size: 1.1rem;
+}
+
+/* 3. TORNAR VISÍVEL: Quando o pai (.answer-btn) tiver a classe .selected */
+.answer-btn.selected .confirm-btn {
+    display: flex; /* Torna visível e usa flex para alinhar o texto */
+}
+
+
+/* Animação para o botão confirmar deslizar (Opcional, mas dá um toque visual) */
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
