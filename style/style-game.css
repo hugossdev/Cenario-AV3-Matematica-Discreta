@@ -200,3 +200,67 @@ body::before {
         font-size: 0.8rem;
     }
 }
+
+/* --- Estilos para o Modal de Feedback --- */
+.modal-overlay {
+    /* Posição fixa para cobrir a tela inteira */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Fundo escuro e semi-transparente */
+    display: none; /* Começa oculto */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique acima de tudo */
+}
+
+.modal-content {
+    background-color: #2e3b4e; /* Cor do seu tema */
+    color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border: 3px solid #f44336; /* Borda vermelha para erro */
+}
+
+.modal-content h3 {
+    color: #F44336; /* Vermelho */
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.modal-content p {
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+.modal-content strong {
+    color: #FFC107; /* Amarelo para destaque */
+}
+
+.explanation-title {
+    font-style: italic;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#start-new-game-btn {
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #4CAF50; /* Verde para começar */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+
+#start-new-game-btn:hover {
+    background-color: #45a049;
+}

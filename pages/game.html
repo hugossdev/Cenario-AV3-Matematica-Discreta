@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Show</title>
+    <link rel="stylesheet" href="../style/style-game.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="main-container">
+
+        <section class="game-area">
+
+            <div class="question-box">
+                <h1 class="question-text">Carregando...</h1>
+            </div>
+
+            <div class="answers-list">
+
+                <button class="answer-btn" data-indice="0">
+                    <span class="badge">A</span>
+                    <span class="text"></span>
+                </button>
+
+                <button class="answer-btn" data-indice="1">
+                    <span class="badge">B</span>
+                    <span class="text"></span>
+                </button>
+
+                <button class="answer-btn" data-indice="2">
+                    <span class="badge">C</span>
+                    <span class="text"></span>
+                </button>
+
+                <button class="answer-btn" data-indice="3">
+                    <span class="badge">D</span>
+                    <span class="text"></span>
+                </button>
+
+            </div>
+
+            <div class="game-footer">
+                <div class="prize-container">
+                    <div class="prize-box">
+                        <span class="prize-amount">1 mil</span>
+                    </div>
+                    <small>Acertar</small>
+                </div>
+
+                <div class="actions">
+                    <button class="action-btn btn-skip">
+                        <span>🏃 PULAR</span>
+                    </button>
+                    <button class="action-btn btn-cards">
+                        <span>🃏 CARTAS</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="character-area"></section>
+
+    </main>
+
+
+    <div id="feedback-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title">❌ Você errou!</h3>
+            <p><strong>Sua resposta:</strong> <span id="user-choice"></span></p>
+            <p><strong>Resposta Correta:</strong> <span id="correct-choice"></span></p>
+            <p class="explanation-title">Motivo:</p>
+            <p id="explanation-text"></p>
+            <button id="start-new-game-btn">Começar um novo jogo</button>
+        </div>
+    </div>
+
+    <script type="module" src="../scripts/game.js"></script>
+
+</body>
+
+</html>
