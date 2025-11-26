@@ -17,8 +17,11 @@ body {
 body::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -36,7 +39,8 @@ body::before {
 }
 
 .game-area {
-    flex: 1.2; /* Ocupa um pouco mais da metade */
+    flex: 1.2;
+    /* Ocupa um pouco mais da metade */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,9 +49,10 @@ body::before {
 }
 
 .character-area {
-    flex: 0.8; /* Espaço para o personagem */
+    flex: 0.8;
+    /* Espaço para o personagem */
     /* Apenas para visualização temporária da área */
-    border-left: 1px dashed rgba(255,255,255,0.1); 
+    border-left: 1px dashed rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: end;
     justify-content: center;
@@ -60,12 +65,14 @@ body::before {
     border-radius: 15px;
     text-align: center;
     border: 2px solid #ff3333;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    /* Garante que o CSS normal não seja afetado pela animação quando ela não estiver rodando */
+    transition: all 0.2s ease-in-out;
 }
 
 .question-box h1 {
     font-size: 2rem;
-    text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* --- LISTA DE RESPOSTAS --- */
@@ -78,14 +85,15 @@ body::before {
 .answer-btn {
     background: linear-gradient(180deg, #bf0000 0%, #7d0000 100%);
     border: 2px solid #e04f4f;
-    border-radius: 50px; /* Bordas bem arredondadas */
+    border-radius: 50px;
+    /* Bordas bem arredondadas */
     padding: 0.8rem 1.5rem;
     display: flex;
     align-items: center;
     gap: 1.5rem;
     cursor: pointer;
     transition: transform 0.2s, filter 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 .answer-btn:hover {
@@ -105,7 +113,7 @@ body::before {
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .answer-btn .text {
@@ -120,7 +128,8 @@ body::before {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Alinha tudo à direita */
+    align-items: flex-end;
+    /* Alinha tudo à direita */
     gap: 10px;
 }
 
@@ -168,34 +177,47 @@ body::before {
     font-size: 1rem;
     cursor: pointer;
     text-transform: uppercase;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     transition: filter 0.2s;
-    border-top: 2px solid rgba(255,255,255,0.3);
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .action-btn:hover {
     filter: brightness(1.1);
 }
 
-.btn-skip { background: linear-gradient(to bottom, #1f4e8c, #0f2b52); }
-.btn-cards { background: linear-gradient(to bottom, #007a7a, #004d4d); }
-.btn-stop { background: linear-gradient(to bottom, #a32a2a, #5c1212); }
+.btn-skip {
+    background: linear-gradient(to bottom, #1f4e8c, #0f2b52);
+}
+
+.btn-cards {
+    background: linear-gradient(to bottom, #007a7a, #004d4d);
+}
+
+.btn-stop {
+    background: linear-gradient(to bottom, #a32a2a, #5c1212);
+}
 
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
     .main-container {
         flex-direction: column;
     }
+
     .game-area {
         width: 100%;
         flex: 1;
     }
+
     .character-area {
-        display: none; /* Esconde a área do personagem no celular */
+        display: none;
+        /* Esconde a área do personagem no celular */
     }
+
     .actions {
         gap: 0.5rem;
     }
+
     .action-btn span {
         font-size: 0.8rem;
     }
@@ -209,15 +231,19 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); /* Fundo escuro e semi-transparente */
-    display: none; /* Começa oculto */
+    background-color: rgba(0, 0, 0, 0.85);
+    /* Fundo escuro e semi-transparente */
+    display: none;
+    /* Começa oculto */
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Garante que fique acima de tudo */
+    z-index: 1000;
+    /* Garante que fique acima de tudo */
 }
 
 .modal-content {
-    background-color: #2e3b4e; /* Cor do seu tema */
+    background-color: #2e3b4e;
+    /* Cor do seu tema */
     color: #fff;
     padding: 30px;
     border-radius: 12px;
@@ -225,11 +251,13 @@ body::before {
     max-width: 400px;
     width: 90%;
     text-align: center;
-    border: 3px solid #f44336; /* Borda vermelha para erro */
+    border: 3px solid #f44336;
+    /* Borda vermelha para erro */
 }
 
 .modal-content h3 {
-    color: #F44336; /* Vermelho */
+    color: #F44336;
+    /* Vermelho */
     margin-bottom: 20px;
     font-size: 1.5em;
 }
@@ -240,7 +268,8 @@ body::before {
 }
 
 .modal-content strong {
-    color: #FFC107; /* Amarelo para destaque */
+    color: #FFC107;
+    /* Amarelo para destaque */
 }
 
 .explanation-title {
@@ -252,7 +281,8 @@ body::before {
 #start-new-game-btn {
     padding: 10px 20px;
     margin-top: 20px;
-    background-color: #4CAF50; /* Verde para começar */
+    background-color: #4CAF50;
+    /* Verde para começar */
     color: white;
     border: none;
     border-radius: 6px;
@@ -269,8 +299,9 @@ body::before {
 
 /* Ajuste no botão pai para posicionamento do Confirmar */
 .answer-btn {
-    position: relative; /* FUNDAMENTAL para que o .confirm-btn funcione */
-    overflow: hidden; 
+    position: relative;
+    /* FUNDAMENTAL para que o .confirm-btn funcione */
+    overflow: hidden;
     /* Manter o restante do seu CSS para .answer-btn */
 }
 
@@ -279,7 +310,7 @@ body::before {
     /* Gradiente Dourado/Amarelo */
     background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
     border-color: #ffe66d;
-    transform: scale(1.02); 
+    transform: scale(1.02);
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
     /* Retirando o hover default que pode conflitar quando selecionado */
     filter: none;
@@ -299,35 +330,76 @@ body::before {
 
 /* 2. BOTÃO CONFIRMAR (Oculto por padrão) */
 .confirm-btn {
-    display: none; /* Escondido inicialmente */
+    display: none;
+    /* Escondido inicialmente */
     position: absolute;
     right: 0;
     top: 0;
     height: 100%;
     /* Gradiente Verde (Cor do Confirmar na imagem) */
-    background: linear-gradient(to bottom, #4CAF50, #368739); 
+    background: linear-gradient(to bottom, #4CAF50, #368739);
     color: white;
     font-weight: bold;
     text-transform: uppercase;
     padding: 0 2rem;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
-    border-left: 2px solid rgba(255,255,255,0.3);
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-    animation: slideInRight 0.3s ease-out; /* Animação de entrada */
-    width: 20%; /* Define a largura para que o botão tome um espaço fixo */
+    border-left: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    animation: slideInRight 0.3s ease-out;
+    /* Animação de entrada */
+    width: 20%;
+    /* Define a largura para que o botão tome um espaço fixo */
     min-width: 120px;
     font-size: 1.1rem;
 }
 
 /* 3. TORNAR VISÍVEL: Quando o pai (.answer-btn) tiver a classe .selected */
 .answer-btn.selected .confirm-btn {
-    display: flex; /* Torna visível e usa flex para alinhar o texto */
+    display: flex;
+    /* Torna visível e usa flex para alinhar o texto */
 }
 
 
 /* Animação para o botão confirmar deslizar (Opcional, mas dá um toque visual) */
 @keyframes slideInRight {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+/* --- NOVO: ANIMAÇÃO DE FLASH (Pisca Amarelo/Branco no botão de resposta) --- */
+/* ---------------------------------------------------------------------- */
+
+/* 1. Keyframes para o Flash (Amarelo -> Branco -> Amarelo) */
+@keyframes flash-confirm {
+    0% {
+        /* Cor normal de seleção (amarelo escuro) */
+        background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
+        border-color: #ffe66d;
+    }
+
+    50% {
+        /* Cor clara (Branco brilhante) */
+        background: #dde773;
+        border-color: #dde773;
+        box-shadow: 0 0 25px #ffe66d, 0 0 10px #ffffff;
+    }
+
+    100% {
+        /* Retorna à cor normal de seleção */
+        background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
+        border-color: #ffe66d;
+    }
+}
+
+/* 2. Classe que aplica a animação no botão selecionado após confirmação */
+.answer-btn.flash-processing {
+    animation: flash-confirm 0.5s ease 5;
+    /* 0.2s * 10 repetições = 2 segundos */
 }
