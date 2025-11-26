@@ -186,59 +186,57 @@ function verificarResposta(indiceUsuario) {
     });
 
     setTimeout(() => {
-        pararAudioHeartbeat();
+    pararAudioHeartbeat();
 
-        if (clickedButton) {
-            clickedButton.classList.remove('flash-processing');
-            clickedButton.classList.remove('selected'); 
-        }
+    // Limpa a animação flash
+    if (clickedButton) {
+        clickedButton.classList.remove('flash-processing');
+        clickedButton.classList.remove('selected'); 
+    }
 
-        // NOVO COMPORTAMENTO:
-        // Após o flash, a alternativa clicada fica *verde* antes de processar correta/errada
-        if (clickedButton) {
-            clickedButton.classList.add("correct");
-        }
+    const btnCorreto = document.querySelector(`.answer-btn[data-indice="${correta}"]`);
 
-        if (indiceUsuario === correta) {
+    if (indiceUsuario === correta) {
+        // Correta: mantém verde
+        if (clickedButton) clickedButton.classList.add("correct");
 
-            // Se for correta, mantém o verde normal (já está .correct)
-            acertosTotais++;
-
-            tocarAudioCerta(); 
-            
-            audioCerta.onended = () => {
-                tocarAudioAplausos();
-                audioAplausos.onended = () => {
-                    setTimeout(() => {
-                        if (acertosTotais >= MAX_PERGUNTAS) {
-                            audioFundoGame.pause(); 
-                            window.location.href = "../pages/endgame.html";
-                        } else {
-                            atual++;
-                            carregarPergunta();
-                        }
-                        audioCerta.onended = null; 
-                        audioAplausos.onended = null; 
-                    }, 1000);
-                };
+        acertosTotais++;
+        tocarAudioCerta(); 
+        
+        audioCerta.onended = () => {
+            tocarAudioAplausos();
+            audioAplausos.onended = () => {
+                setTimeout(() => {
+                    if (acertosTotais >= MAX_PERGUNTAS) {
+                        audioFundoGame.pause(); 
+                        window.location.href = "../pages/endgame.html";
+                    } else {
+                        atual++;
+                        carregarPergunta();
+                    }
+                    audioCerta.onended = null; 
+                    audioAplausos.onended = null; 
+                }, 1000);
             };
+        };
 
-        } else {
+    } else {
+        // Errada: aplica cinza no clicado
+        if (clickedButton) clickedButton.classList.add("incorrect");
 
-            tocarAudioErrada(); 
-            
-            // ERRADA: Tira o verde e aplica vermelho
-            clickedButton.classList.remove("correct");
-            clickedButton.classList.add("incorrect");
+        // Verde no correto
+        if (btnCorreto) btnCorreto.classList.add("correct");
 
-            // Botão correto continua verde
-            const btnCorreto = document.querySelector(`.answer-btn[data-indice="${correta}"]`);
-            btnCorreto.classList.add("correct");
+        tocarAudioErrada();
 
+        // Espera 1,5s antes de mostrar o modal
+        setTimeout(() => {
             exibirFeedbackErro(perguntaAtual, indiceUsuario, correta);
-        }
+        }, 3500);
+    }
 
-    }, 3000); // Tempo do flash
+}, 3000); // Tempo do flash
+
 
     selectedIndex = null; 
 }
