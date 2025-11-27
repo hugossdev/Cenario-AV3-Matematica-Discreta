@@ -185,41 +185,103 @@ body::before {
     filter: brightness(1.1);
 }
 
+/* ========================================================= */
+/* ESTILOS ATUALIZADOS PARA OS BOTÕES DE AÇÃO (ACTIVE STATE) */
+/* ========================================================= */
+
+/* --- 🏃 ESTILO ATIVO PARA O BOTÃO PULAR (Laranja/Âmbar) --- */
 .btn-skip {
-    background: linear-gradient(to bottom, #1f4e8c, #0f2b52);
+    /* Gradiente Laranja/Âmbar: Sugere sacrifício/alerta */
+    background: linear-gradient(to bottom, #FFD700, #FF8C00); 
+    color: #333; /* Texto escuro para alto contraste */
+    border: 3px solid #FFA500; 
+    box-shadow: 0 4px 0 #CC7A00; 
+    
+    font-weight: bold;
+    text-shadow: none; 
 }
 
+.btn-skip span {
+    color: #333;
+    font-weight: bold;
+}
+
+.btn-skip:hover {
+    background: linear-gradient(to bottom, #FFE87C, #FF9900);
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* --- 🃏 ESTILO ATIVO PARA O BOTÃO CARTAS (Roxo/Violeta) --- */
 .btn-cards {
-    background: linear-gradient(to bottom, #007a7a, #004d4d);
+    /* Gradiente Roxo/Violeta Intenso: Sugere poder especial/sorte */
+    background: linear-gradient(to bottom, #8A2BE2, #9932CC); 
+    color: white;
+    border: 3px solid #6A5ACD; 
+    box-shadow: 0 4px 0 #58189D;
+}
+
+.btn-cards:hover {
+    background: linear-gradient(to bottom, #9F79EE, #A959D7);
+    transform: scale(1.05);
+    filter: brightness(1.1);
 }
 
 .btn-stop {
     background: linear-gradient(to bottom, #a32a2a, #5c1212);
 }
 
-/* 🟢 CORREÇÃO FINAL E DEFINITIVA PARA REMOVER O FUNDO BRANCO DO ÍCONE */
+/* ========================================================= */
+/* ESTILOS PARA BOTÕES DE AÇÃO 'USADOS' (NÃO-PRETO, APENAS APAGADO) */
+/* ========================================================= */
+
+.btn-skip.used, 
+.btn-cards.usada {
+    /* Mantém a cor original, apenas reduz a opacidade */
+    
+    /* Remove a borda e a sombra 3D */
+    border: none !important; 
+    box-shadow: none !important; 
+    
+    /* MAIS APAGADO: Reduz a opacidade pela metade */
+    opacity: 0.5 !important; 
+    
+    /* Indica que não é clicável e remove efeitos */
+    cursor: not-allowed !important; 
+    pointer-events: none !important; 
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    
+    /* Zera estilos que podem estar herdando o fundo preto antigo */
+    background: none !important; 
+}
+
+/* Garante que o texto/ícone herdem a cor original e não fiquem cinzas */
+.btn-skip.used span,
+.btn-cards.usada span,
+.btn-cards.usada * {
+    color: inherit !important; 
+    background: transparent !important;
+    transition: none !important;
+}
+
+
+/* --- Limpeza de estilos desnecessários/conflitantes do código anterior --- */
+
+/* As seguintes regras foram removidas ou simplificadas, pois entravam em conflito */
+/* com a nova regra de opacidade (principalmente as que forçavam o fundo preto) */
+
 .action-btn.btn-cards.usada,
 .action-btn[disabled] {
-    /* Garante que o botão principal tenha sua cor normal */
+    /* Mantido apenas para compatibilidade de regras antigas, mas o bloco acima é o principal */
     transform: none;
     filter: none;
     transition: none;
-    
-    /* Mantém o cursor de não-permitido, mas o botão parece normal */
     cursor: not-allowed; 
-    
-    /* Garante a cor do texto */
     color: white !important; 
 }
 
-/* 🔑 REGRA CRÍTICA: Aplica fundo transparente a TODOS os elementos internos do botão desabilitado */
-.action-btn.btn-cards.usada *,
-.action-btn[disabled] * {
-    background: transparent !important; /* FORÇA o fundo transparente no ícone/texto */
-    color: inherit !important;          /* Garante que o texto herde a cor branca do pai */
-}
-
-/* Garante que o hover seja removido para os botões desabilitados */
 .action-btn.btn-cards.usada:hover,
 .action-btn[disabled]:hover {
     filter: none; 

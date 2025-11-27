@@ -115,11 +115,15 @@ const startNewGameBtn = document.getElementById("start-new-game-btn");
 const confirmarBtn = document.querySelectorAll(".confirm-btn"); 
 const actionsDiv = document.querySelector(".actions"); 
 
+// 🏃 Referência ao botão PULAR
+const btnSkip = document.querySelector(".btn-skip"); 
+
 // Variáveis de controle
 let atual = 0;
 const MAX_PERGUNTAS = 20;
 let acertosTotais = 0;
 let selectedIndex = null;
+let isSkipUsed = false; // 🏃 Variável de controle para o pulo (Uso único)
 
 
 // -----------------------------------------------------------
@@ -132,7 +136,7 @@ const sortearBtn = document.getElementById('sortear-btn'); // ID do botão Sorte
 const btnCartas = document.querySelector('.btn-cards'); // Botão 🃏 CARTAS
 const cardElements = document.querySelectorAll('.card-option'); // As 4 cartas dentro do modal
 
-// 🚨 NOVO: Variável para controlar o loop da animação de sorteio
+// Variável para controlar o loop da animação de sorteio
 let intervaloAnimacao; 
 const resultadosSorteio = [0, 1, 2, 3]; // O resultado de eliminações em cada carta
 
@@ -140,7 +144,6 @@ const resultadosSorteio = [0, 1, 2, 3]; // O resultado de eliminações em cada 
 // -----------------------------------------------------------
 // 🔮 FUNÇÃO DO PRÊMIO (10 imagens)
 // -----------------------------------------------------------
-// NO ARQUIVO: scripts/game.js (Substituir a função existente)
 
 function atualizarPremio() {
     const imgPremio = document.getElementById("premio-img");
@@ -152,9 +155,7 @@ function atualizarPremio() {
     const proximoPremio = acertosTotais + 1;
     const numeroPremio = Math.min(proximoPremio, componentesDoPc.length); 
 
-    // O prêmio ganho fica visível na tela durante o primeiro setTimeout (3 segundos)
-
-    // 1. ESPERA INICIAL (8000ms): O prêmio ganho fica visível (ajustado para dar tempo de terminar o áudio)
+    // 1. ESPERA INICIAL (8000ms): O prêmio ganho fica visível
     setTimeout(() => {
         
         // 2. INICIA O FADE-OUT (Imagem e Texto)
@@ -170,7 +171,7 @@ function atualizarPremio() {
             // Busca o nome do componente (Índice = número do prêmio - 1)
             const nomeComponente = componentesDoPc[numeroPremio - 1]; 
             
-            // 🚨 Atualiza o conteúdo do texto
+            // Atualiza o conteúdo do texto
             textoPremio.textContent = `Pergunta ${numeroPremio}: Valendo ${nomeComponente}!`;
 
             // 5. INICIA O FADE-IN (Imagem e Texto)
@@ -181,6 +182,7 @@ function atualizarPremio() {
         
     }, 8000); // 8000ms: Tempo de exibição do prêmio ganho (duração do áudio + visualização)
 }
+
 // Embaralhar
 function embaralharArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -219,6 +221,32 @@ function handleConfirmation() {
     }
 }
 
+// -------------------------------------------------------------------
+// 🏃 LÓGICA DO PULAR (SKIP)
+// -------------------------------------------------------------------
+
+function skipQuestion() {
+    // 1. Verifica se o pulo já foi usado
+    if (isSkipUsed) {
+        alert("Você só pode pular uma pergunta por jogo!");
+        return;
+    }
+
+    // 2. Marca o pulo como usado
+    isSkipUsed = true;
+    
+    // 3. Desabilita visualmente o botão de pular e marca a classe como usada
+    btnSkip.disabled = true;
+    btnSkip.classList.add('used'); 
+    // O TEXTO É MANTIDO AQUI CONFORME SOLICITADO
+    
+    // 4. Avança para a próxima pergunta
+    atual++; 
+    
+    // Recarrega o quiz com a próxima pergunta, garantindo que o áudio de fundo volte
+    carregarPergunta(); 
+}
+
 
 // Modal erro
 function exibirFeedbackErro(pergunta, indiceUsuario, indiceCorreto) {
@@ -237,7 +265,7 @@ function abrirModalCartas() {
     // Só pode abrir se não foi usada e se o botão não está desabilitado por outro motivo
     if (cartasUsadas || btnCartas.disabled) return; 
 
-    // 🚩 CORREÇÃO: Garante que qualquer animação anterior seja parada ao abrir o modal
+    // Garante que qualquer animação anterior seja parada ao abrir o modal
     if (intervaloAnimacao) {
         clearInterval(intervaloAnimacao);
     }
@@ -257,7 +285,7 @@ function fecharModalCartas() {
     modalCartas.style.display = 'none';
     actionsDiv.style.pointerEvents = 'auto'; // Reabilita a seleção de resposta
     
-    // 🚩 CORREÇÃO: Garante que o loop de animação pare ao fechar
+    // Garante que o loop de animação pare ao fechar
     if (intervaloAnimacao) {
         clearInterval(intervaloAnimacao);
     }
@@ -301,7 +329,7 @@ function sortearCarta() {
     let currentIndex = 0;
     const tempoDeGiro = 100; // Velocidade do destaque em ms (para animação)
     
-    // 3. 🚩 NOVO: Inicia o "Giro" rápido (destaque sequencial)
+    // 3. Inicia o "Giro" rápido (destaque sequencial)
     intervaloAnimacao = setInterval(() => {
         // Remove destaque da carta anterior
         cardElements[currentIndex].classList.remove('selected-card');
@@ -314,7 +342,7 @@ function sortearCarta() {
 
     }, tempoDeGiro);
 
-    // 4. 🚩 NOVO: Para o giro após 3 segundos e aplica o resultado
+    // 4. Para o giro após 3 segundos e aplica o resultado
     setTimeout(() => {
         clearInterval(intervaloAnimacao); // Para o giro
         
@@ -353,6 +381,8 @@ function verificarResposta(indiceUsuario) {
 
     actionsDiv.style.pointerEvents = 'none';
     answerButtons.forEach(btn => btn.disabled = true);
+    // 🏃 Desabilita PULAR temporariamente
+    if (btnSkip) btnSkip.disabled = true; 
 
     setTimeout(() => {
         pararAudioHeartbeat();
@@ -461,6 +491,21 @@ function carregarPergunta() {
         btnCartas.disabled = false;
         btnCartas.classList.remove('usada');
     }
+    
+    // 🏃 Lógica do botão PULAR
+    if (btnSkip) {
+        if (isSkipUsed) {
+            btnSkip.disabled = true;
+            btnSkip.classList.add('used');
+            // O TEXTO É MANTIDO (não alterado)
+        } else {
+            // Reabilita o botão PULAR se não foi usado
+            btnSkip.disabled = false;
+            btnSkip.classList.remove('used'); 
+            btnSkip.querySelector('span').textContent = '🏃 PULAR'; // Garante o texto original
+        }
+    }
+
 
     // Remove o estilo de eliminado e reabilita botões para a nova pergunta
     answerButtons.forEach(btn => {
@@ -496,6 +541,10 @@ function carregarPergunta() {
 btnCartas.addEventListener('click', abrirModalCartas);
 // Evento para sortear a carta
 sortearBtn.addEventListener('click', sortearCarta);
+// 🏃 Evento para o botão de pular
+if (btnSkip) {
+    btnSkip.addEventListener('click', skipQuestion);
+}
 
 answerButtons.forEach(btn => {
     
