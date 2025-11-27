@@ -192,13 +192,14 @@ body::before {
 /* --- 🏃 ESTILO ATIVO PARA O BOTÃO PULAR (Laranja/Âmbar) --- */
 .btn-skip {
     /* Gradiente Laranja/Âmbar: Sugere sacrifício/alerta */
-    background: linear-gradient(to bottom, #FFD700, #FF8C00); 
-    color: #333; /* Texto escuro para alto contraste */
-    border: 3px solid #FFA500; 
-    box-shadow: 0 4px 0 #CC7A00; 
-    
+    background: linear-gradient(to bottom, #FFD700, #FF8C00);
+    color: #333;
+    /* Texto escuro para alto contraste */
+    border: 3px solid #FFA500;
+    box-shadow: 0 4px 0 #CC7A00;
+
     font-weight: bold;
-    text-shadow: none; 
+    text-shadow: none;
 }
 
 .btn-skip span {
@@ -215,9 +216,9 @@ body::before {
 /* --- 🃏 ESTILO ATIVO PARA O BOTÃO CARTAS (Roxo/Violeta) --- */
 .btn-cards {
     /* Gradiente Roxo/Violeta Intenso: Sugere poder especial/sorte */
-    background: linear-gradient(to bottom, #8A2BE2, #9932CC); 
+    background: linear-gradient(to bottom, #8A2BE2, #9932CC);
     color: white;
-    border: 3px solid #6A5ACD; 
+    border: 3px solid #6A5ACD;
     box-shadow: 0 4px 0 #58189D;
 }
 
@@ -235,35 +236,34 @@ body::before {
 /* ESTILOS PARA BOTÕES DE AÇÃO 'USADOS' (NÃO-PRETO, APENAS APAGADO) */
 /* ========================================================= */
 
-.btn-skip.used, 
+.btn-skip.used,
 .btn-cards.usada {
-    /* Mantém a cor original, apenas reduz a opacidade */
-    
-    /* Remove a borda e a sombra 3D */
-    border: none !important; 
-    box-shadow: none !important; 
-    
-    /* MAIS APAGADO: Reduz a opacidade pela metade */
-    opacity: 0.5 !important; 
-    
-    /* Indica que não é clicável e remove efeitos */
-    cursor: not-allowed !important; 
-    pointer-events: none !important; 
+    /* Aparência de Esgotado: Gradiente Cinza Escuro/Preto Apagado */
+    background: linear-gradient(to bottom, #303030, #1a1a1a) !important;
+    color: #888 !important;
+    /* Texto cinza claro */
+    border: 2px solid #555 !important;
+    /* Borda cinza */
+    box-shadow: none !important;
+    /* Remove a sombra 3D */
+
+    /* Funcionalidade de Desabilitação */
+    opacity: 1 !important;
+    /* Mantém 100% de opacidade para melhor legibilidade */
+    cursor: not-allowed !important;
+    pointer-events: none !important;
     filter: none !important;
     transform: none !important;
-    transition: none !important;
-    
-    /* Zera estilos que podem estar herdando o fundo preto antigo */
-    background: none !important; 
+    transition: all 0.2s ease-out !important;
+    /* Garante uma transição suave */
 }
 
-/* Garante que o texto/ícone herdem a cor original e não fiquem cinzas */
+/* Garante que o texto/ícone não herdem cores conflitantes */
 .btn-skip.used span,
-.btn-cards.usada span,
-.btn-cards.usada * {
-    color: inherit !important; 
-    background: transparent !important;
-    transition: none !important;
+.btn-cards.usada span {
+    color: #888 !important;
+    font-weight: 500 !important;
+    /* Reduz a força para parecer esgotado */
 }
 
 
@@ -278,13 +278,13 @@ body::before {
     transform: none;
     filter: none;
     transition: none;
-    cursor: not-allowed; 
-    color: white !important; 
+    cursor: not-allowed;
+    color: white !important;
 }
 
 .action-btn.btn-cards.usada:hover,
 .action-btn[disabled]:hover {
-    filter: none; 
+    filter: none;
 }
 
 
@@ -467,8 +467,15 @@ body::before {
 /* ---------------------------------------------------------------------- */
 
 @keyframes flash-overlay {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 /* 2. Configuração do pseudo-elemento */
@@ -481,12 +488,14 @@ body::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.85); /* brilho branco */
+    background: rgba(255, 255, 255, 0.85);
+    /* brilho branco */
     opacity: 0;
     animation: flash-overlay 0.15s linear 15;
     pointer-events: none;
     border-radius: inherit;
 }
+
 /* ======================================================= */
 /* 🔑 ANIMAÇÃO DE APARECIMENTO (SLIDE-IN) */
 /* ======================================================= */
@@ -497,6 +506,7 @@ body::before {
         opacity: 0;
         transform: translateX(-100%);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -506,22 +516,22 @@ body::before {
 /* 2. Estilo para esconder o texto durante a troca de pergunta */
 .question-box.hide-text .question-text {
     opacity: 0;
-    transition: opacity 0.2s ease-out; 
+    transition: opacity 0.2s ease-out;
 }
 
 /* 3. ESTADO INICIAL DOS ELEMENTOS ANTES DA ANIMAÇÃO (Apenas para o reset/inicialização) */
 
 /* A. Question Box - Estado padrão (não animado) */
 .question-box {
-    opacity: 1; 
+    opacity: 1;
     transform: translateX(0);
-    transition: all 0.2s ease-in-out; 
+    transition: all 0.2s ease-in-out;
 }
 
 /* B. Botões individuais - Estado padrão (não animado) */
 .answer-btn {
     /* Estado visual final, para quando a animação terminar e a classe .animate-in for removida */
-    opacity: 1; 
+    opacity: 1;
     transform: translateX(0);
 }
 
@@ -530,34 +540,37 @@ body::before {
 /* A. Question Box animado */
 .question-box.animate-in {
     /* 🚩 NOVO: Define o estado inicial da animação aqui, para que o navegador a re-execute. */
-    opacity: 0; 
-    transform: translateX(-100%); 
+    opacity: 0;
+    transform: translateX(-100%);
     /* Aplica a animação: */
-    animation: slideIn 0.8s ease-out forwards; 
+    animation: slideIn 0.8s ease-out forwards;
 }
 
 
 /* B. Botões individuais animados com delay */
 .answer-btn.animate-in {
     /* 🚩 NOVO: Define o estado inicial da animação aqui. */
-    opacity: 0; 
-    transform: translateX(-100%); 
+    opacity: 0;
+    transform: translateX(-100%);
     /* Aplica a animação de base */
     animation: slideIn 1s ease-out forwards;
 }
 
 /* C. Define o atraso individual para cada botão animado */
 .answer-btn:nth-child(1).animate-in {
-    animation-delay: 0.1s; 
+    animation-delay: 0.1s;
 }
+
 .answer-btn:nth-child(2).animate-in {
-    animation-delay: 0.3s; 
+    animation-delay: 0.3s;
 }
+
 .answer-btn:nth-child(3).animate-in {
-    animation-delay: 0.5s; 
+    animation-delay: 0.5s;
 }
+
 .answer-btn:nth-child(4).animate-in {
-    animation-delay: 0.7s; 
+    animation-delay: 0.7s;
 }
 
 /* ======================================================= */
@@ -574,12 +587,14 @@ body::before {
 
 .answer-btn.correct .text,
 .answer-btn.correct .badge {
-    color: #000 !important; /* contraste do texto */
+    color: #000 !important;
+    /* contraste do texto */
 }
 
 /* Botão marcado errado */
 .answer-btn.incorrect {
-    background: #555 !important; /* cinza escuro */
+    background: #555 !important;
+    /* cinza escuro */
     border-color: #000000 !important;
     color: #000000 !important;
     transform: scale(1.02);
@@ -588,7 +603,8 @@ body::before {
 
 .answer-btn.incorrect .text,
 .answer-btn.incorrect .badge {
-    color: #000000 !important; /* texto claro sobre cinza */
+    color: #000000 !important;
+    /* texto claro sobre cinza */
 }
 
 /* ================================
@@ -613,8 +629,8 @@ body::before {
 
 #container-premio {
     /* 🔑 ESSENCIAL: Permite que o texto dentro dele seja posicionado de forma absoluta */
-    position: relative; 
-    
+    position: relative;
+
     /* Os estilos de flexbox já estavam definidos, mas é bom reforçar a centralização */
     display: flex;
     justify-content: center;
@@ -627,24 +643,28 @@ body::before {
 #premio-texto {
     /* Posição */
     position: absolute;
-    top: 5%; /* Ajusta a altura da caixa, 5% do topo */
+    top: 5%;
+    /* Ajusta a altura da caixa, 5% do topo */
     left: 50%;
-    transform: translateX(-50%); /* Centraliza horizontalmente */
-    z-index: 10; /* Garante que fique acima da imagem */
-    
+    transform: translateX(-50%);
+    /* Centraliza horizontalmente */
+    z-index: 10;
+    /* Garante que fique acima da imagem */
+
     /* Estilo Visual */
-    color: white; 
-    background-color: rgba(139, 0, 0, 0.9); /* Vermelho escuro semi-transparente */
+    color: white;
+    background-color: rgba(139, 0, 0, 0.9);
+    /* Vermelho escuro semi-transparente */
     border: 1px solid #ff3333;
     padding: 8px 15px;
     border-radius: 8px;
-    font-size: 1.3em; 
+    font-size: 1.3em;
     font-weight: 900;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     text-align: center;
-    width: 80%; 
+    width: 80%;
     max-width: 350px;
-    
+
     /* 🔑 ESSENCIAL: Transição para o fade-in/out */
     transition: opacity 0.5s ease-in-out;
 }
@@ -652,8 +672,8 @@ body::before {
 /* 3. Aplica a transição de opacidade à imagem também (para sincronizar com o JS) */
 #premio-img {
     /* 🔑 ESSENCIAL: Aplica a transição de opacidade usada no JavaScript (500ms) */
-    transition: opacity 0.5s ease-in-out; 
-    
+    transition: opacity 0.5s ease-in-out;
+
     /* Mantenha seus estilos originais da imagem: */
     width: 90%;
     height: auto;
@@ -671,8 +691,10 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro mais opaco */
-    display: none; /* Inicia oculto, só o JS exibe */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Fundo escuro mais opaco */
+    display: none;
+    /* Inicia oculto, só o JS exibe */
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -680,24 +702,25 @@ body::before {
 
 .modal-content-cartas {
     /* NOVO FUNDO: Azul Marinho/Roxo Profundo */
-    background: linear-gradient(145deg, #1c0f38, #0a0515); 
-    
+    background: linear-gradient(145deg, #1c0f38, #0a0515);
+
     /* NOVA BORDA: Verde Elétrico/Ciano */
     border: 3px solid #00ffc4;
     border-radius: 15px;
     padding: 30px;
     text-align: center;
-    
+
     /* NOVA SOMBRA/BRILHO: Verde Elétrico/Ciano */
     box-shadow: 0 10px 40px rgba(0, 255, 196, 0.4);
     max-width: 500px;
     width: 90%;
     position: relative;
-    color: #ffffff; 
+    color: #ffffff;
 }
 
 .modal-content-cartas h2 {
-    color: #00ffc4; /* Título em verde elétrico */
+    color: #00ffc4;
+    /* Título em verde elétrico */
     font-size: 1.8rem;
     margin-bottom: 20px;
 }
@@ -710,7 +733,8 @@ body::before {
 }
 
 .card-option {
-    background-color: #f0f0f0; /* Carta clara */
+    background-color: #f0f0f0;
+    /* Carta clara */
     color: #1b2845;
     width: 80px;
     height: 120px;
@@ -734,7 +758,7 @@ body::before {
 
 .card-option.selected-card {
     /* CORREÇÃO: Borda e brilho da carta selecionada em Dourado/Amarelo Forte */
-    border-color: #ffcc00; 
+    border-color: #ffcc00;
     transform: scale(1.1);
     box-shadow: 0 0 20px #ffcc00;
 }
@@ -747,7 +771,7 @@ body::before {
     font-size: 1.2rem;
     font-weight: 700;
     /* NOVO: Botão Sortear em Ciano/Verde Elétrico */
-    background-color: #00ffc4; 
+    background-color: #00ffc4;
     color: #1b2845;
     border: none;
     border-radius: 8px;
@@ -756,7 +780,8 @@ body::before {
 }
 
 #sortear-btn:hover:not(:disabled) {
-    background-color: #00e0b3; /* Tonalidade mais escura no hover */
+    background-color: #00e0b3;
+    /* Tonalidade mais escura no hover */
 }
 
 /* ------------------------------------------------------------------- */
@@ -769,7 +794,7 @@ body::before {
     pointer-events: none;
     transition: opacity 0.5s, visibility 0.5s;
     /* 2. Remove a linha (opcional) */
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 /* Opcional: Garante que os elementos internos sumam junto, para o caso de algum estilo sobrepor o pai */
