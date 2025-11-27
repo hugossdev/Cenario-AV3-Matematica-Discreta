@@ -120,7 +120,7 @@ const btnSkip = document.querySelector(".btn-skip");
 
 // Variáveis de controle
 let atual = 0;
-const MAX_PERGUNTAS = 20;
+const MAX_PERGUNTAS = 10;
 let acertosTotais = 0;
 let selectedIndex = null;
 let isSkipUsed = false; // 🏃 Variável de controle para o pulo (Uso único)
