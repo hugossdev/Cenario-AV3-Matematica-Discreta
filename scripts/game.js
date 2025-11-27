@@ -13,6 +13,7 @@ const audioCerta = document.getElementById('audioCerta');
 // 🚩 Referência para audioAplausos
 const audioAplausos = document.getElementById('audioAplausos');
 const audioErrada = document.getElementById('audioErrada');
+const botaoCreditos = document.getElementById('botaoCreditos');
 
 // Função para iniciar a música de fundo
 function iniciarMusicaFundo() {
@@ -29,6 +30,18 @@ function iniciarMusicaFundo() {
         }
     }
 }
+
+
+
+
+// --- INICIALIZAÇÃO E LISTENERS ---
+
+if (botaoStart) {
+    // Listener para o botão de Iniciar Jogo
+    botaoStart.addEventListener('click', iniciarJogoEAudio); 
+}
+
+
 
 // Função auxiliar para tocar o áudio de seleção
 function tocarAudioSelecao() {

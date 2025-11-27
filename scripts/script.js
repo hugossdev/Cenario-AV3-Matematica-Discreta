@@ -4,39 +4,43 @@ const audioComecar = document.getElementById('audioComecar');
 // Referência ao botão
 const botaoStart = document.getElementById('botaoStart');
 
+const botaoCreditos = document.getElementById('botaoCreditos');
+
+
+
 
 // Função Principal que Inicia a Música e o Jogo
 function iniciarJogoEAudio(event) {
-    // Previne a navegação imediata do link <a>
-    event.preventDefault(); 
-    
-    // Desabilita o botão para evitar cliques duplos durante a transição
+    event.preventDefault();
+
     if (botaoStart) {
         botaoStart.style.pointerEvents = 'none';
-        botaoStart.innerHTML = 'Carregando...'; // Feedback visual
+        botaoStart.innerHTML = 'Carregando...';
     }
 
-    // 1. LÓGICA DE ÁUDIO
     if (audioComecar) {
-        // Tenta dar play no áudio
         const playPromise = audioComecar.play();
-
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // Áudio iniciado com sucesso
-                console.log("Áudio de transição iniciado.");
-            }).catch(error => {
-                // Isso pode ocorrer se o áudio não puder ser carregado.
-                console.error("Erro ao tentar reproduzir áudio:", error);
-            });
+        if (playPromise) {
+            playPromise.catch(err => console.error(err));
         }
     }
-    
-    // 2. LÓGICA DE NAVEGAÇÃO
-    // Aguarda um pequeno período (ex: 1000ms) para que o som seja ouvido antes de mudar a página.
+
     setTimeout(() => {
         window.location.href = "pages/game.html";
-    }, 3000); // <-- Tempo que o áudio vai tocar (1 segundo)
+    }, 3000);
+}
+
+// Listener do botão Começar
+if (botaoStart) {
+    botaoStart.addEventListener('click', iniciarJogoEAudio);
+}
+
+// 👉 Listener do botão Créditos
+if (botaoCreditos) {
+    botaoCreditos.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = "creditos.html";
+    });
 }
 
 
