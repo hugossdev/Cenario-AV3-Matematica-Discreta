@@ -181,7 +181,7 @@ body::before {
     border-top: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.action-btn:hover {
+.action-btn:hover:not(:disabled) {
     filter: brightness(1.1);
 }
 
@@ -196,6 +196,35 @@ body::before {
 .btn-stop {
     background: linear-gradient(to bottom, #a32a2a, #5c1212);
 }
+
+/* 🟢 CORREÇÃO FINAL E DEFINITIVA PARA REMOVER O FUNDO BRANCO DO ÍCONE */
+.action-btn.btn-cards.usada,
+.action-btn[disabled] {
+    /* Garante que o botão principal tenha sua cor normal */
+    transform: none;
+    filter: none;
+    transition: none;
+    
+    /* Mantém o cursor de não-permitido, mas o botão parece normal */
+    cursor: not-allowed; 
+    
+    /* Garante a cor do texto */
+    color: white !important; 
+}
+
+/* 🔑 REGRA CRÍTICA: Aplica fundo transparente a TODOS os elementos internos do botão desabilitado */
+.action-btn.btn-cards.usada *,
+.action-btn[disabled] * {
+    background: transparent !important; /* FORÇA o fundo transparente no ícone/texto */
+    color: inherit !important;          /* Garante que o texto herde a cor branca do pai */
+}
+
+/* Garante que o hover seja removido para os botões desabilitados */
+.action-btn.btn-cards.usada:hover,
+.action-btn[disabled]:hover {
+    filter: none; 
+}
+
 
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
@@ -489,7 +518,7 @@ body::before {
 /* Botão marcado errado */
 .answer-btn.incorrect {
     background: #555 !important; /* cinza escuro */
-    border-color: z#000000 !important;
+    border-color: #000000 !important;
     color: #000000 !important;
     transform: scale(1.02);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -501,8 +530,8 @@ body::before {
 }
 
 /* ================================
-   ÁREA DO PRÊMIO NA PARTE DIREITA
-   ================================ */
+    ÁREA DO PRÊMIO NA PARTE DIREITA
+    ================================ */
 
 .character-area {
     flex: 0.8;
@@ -571,3 +600,123 @@ body::before {
     border-radius: 10px;
 }
 
+/* ------------------------------------------------------------------- */
+/* 🃏 ESTILOS DO MODAL CARTAS */
+/* ------------------------------------------------------------------- */
+#modal-cartas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro mais opaco */
+    display: none; /* Inicia oculto, só o JS exibe */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content-cartas {
+    /* NOVO FUNDO: Azul Marinho/Roxo Profundo */
+    background: linear-gradient(145deg, #1c0f38, #0a0515); 
+    
+    /* NOVA BORDA: Verde Elétrico/Ciano */
+    border: 3px solid #00ffc4;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    
+    /* NOVA SOMBRA/BRILHO: Verde Elétrico/Ciano */
+    box-shadow: 0 10px 40px rgba(0, 255, 196, 0.4);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    color: #ffffff; 
+}
+
+.modal-content-cartas h2 {
+    color: #00ffc4; /* Título em verde elétrico */
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.card-options-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card-option {
+    background-color: #f0f0f0; /* Carta clara */
+    color: #1b2845;
+    width: 80px;
+    height: 120px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: 900;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-option span {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #484f58;
+}
+
+.card-option.selected-card {
+    /* CORREÇÃO: Borda e brilho da carta selecionada em Dourado/Amarelo Forte */
+    border-color: #ffcc00; 
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #ffcc00;
+}
+
+/* Estilo do botão Sortear dentro do modal */
+#sortear-btn {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    /* NOVO: Botão Sortear em Ciano/Verde Elétrico */
+    background-color: #00ffc4; 
+    color: #1b2845;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#sortear-btn:hover:not(:disabled) {
+    background-color: #00e0b3; /* Tonalidade mais escura no hover */
+}
+
+/* ------------------------------------------------------------------- */
+/* ❌ ESTILO PARA RESPOSTAS ELIMINADAS (USANDO A OPÇÃO QUE MANTÉM O ESPAÇO) */
+/* ------------------------------------------------------------------- */
+.answer-btn.eliminada {
+    /* 1. Fica invisível e não interage, mas mantem a altura */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s, visibility 0.5s;
+    /* 2. Remove a linha (opcional) */
+    text-decoration: none; 
+}
+
+/* Opcional: Garante que os elementos internos sumam junto, para o caso de algum estilo sobrepor o pai */
+.answer-btn.eliminada .badge,
+.answer-btn.eliminada .text {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* ------------------------------------------------------------------- */
+/* FIM DOS ESTILOS */
+/* ------------------------------------------------------------------- */

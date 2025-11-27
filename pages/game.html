@@ -2,48 +2,30 @@
 
 <html lang="pt-BR">
 
-
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Quiz Show</title>
-
     <link rel="stylesheet" href="../style/style-game.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-
 </head>
 
-
-
 <body>
-
-
 
     <audio id="audioFundoGame" loop>
         <source src="../audios/suspense.mp3" type="audio/mpeg">
     </audio>
 
     <audio id="audioSelecao">
-               
         <source src="../audios/certeza.mp3" type="audio/mpeg">
-           
     </audio>
 
     <audio id="audioHeartbeat">
-               
         <source src="../audios/heartbeat.mp3" type="audio/mpeg">
-           
     </audio>
 
     <audio id="audioCerta">
-               
         <source src="../audios/certa.mp3" type="audio/mpeg">
-           
     </audio>
 
     <audio id="audioAplausos">
@@ -51,101 +33,58 @@
     </audio>
 
     <audio id="audioErrada">
-               
         <source src="../audios/errada.mp3" type="audio/mpeg">
-           
     </audio>
-
-
 
     <main class="main-container">
 
-
-
         <section class="game-area">
 
-
-
             <div class="question-box">
-
                 <h1 class="question-text">Carregando...</h1>
-
             </div>
-
-
 
             <div class="answers-list">
 
-
-
                 <button class="answer-btn" data-indice="0" onclick="selectAnswer(this)">
-
                     <span class="badge">A</span>
-
                     <span class="text"></span>
-
-                    <span class="confirm-btn">Confirmar</span> </button>
-
-
+                    <span class="confirm-btn">Confirmar</span>
+                </button>
 
                 <button class="answer-btn" data-indice="1" onclick="selectAnswer(this)">
-
                     <span class="badge">B</span>
-
                     <span class="text"></span>
-
-                    <span class="confirm-btn">Confirmar</span> </button>
-
-
+                    <span class="confirm-btn">Confirmar</span>
+                </button>
 
                 <button class="answer-btn" data-indice="2" onclick="selectAnswer(this)">
-
                     <span class="badge">C</span>
-
                     <span class="text"></span>
-
-                    <span class="confirm-btn">Confirmar</span> </button>
-
-
+                    <span class="confirm-btn">Confirmar</span>
+                </button>
 
                 <button class="answer-btn" data-indice="3" onclick="selectAnswer(this)">
-
                     <span class="badge">D</span>
-
                     <span class="text"></span>
-
-                    <span class="confirm-btn">Confirmar</span> </button>
-
-
+                    <span class="confirm-btn">Confirmar</span>
+                </button>
 
             </div>
-
 
             <div class="actions">
 
                 <button class="action-btn btn-skip">
-
                     <span>🏃 PULAR</span>
-
                 </button>
 
                 <button class="action-btn btn-cards">
-
                     <span>🃏 CARTAS</span>
-
                 </button>
 
             </div>
 
-            </div>
-
-
-
-
-
         </section>
-
-
 
         <section class="character-area">
             <div id="container-premio">
@@ -172,68 +111,48 @@
             </div>
         </section>
 
-
-
     </main>
 
-
-
-
-
     <div id="feedback-modal" class="modal-overlay">
-
         <div class="modal-content">
-
             <h3 id="modal-title">❌ Você errou!</h3>
-
             <p><strong>Sua resposta:</strong> <span id="user-choice"></span></p>
-
             <p><strong>Resposta Correta:</strong> <span id="correct-choice"></span></p>
-
             <p class="explanation-title">Motivo:</p>
-
             <p id="explanation-text"></p>
-
             <button id="start-new-game-btn">Começar um novo jogo</button>
-
         </div>
-
     </div>
 
+    <!-- ⬇️ MODAL DAS CARTAS ADICIONADO AQUI -->
+    <div id="modal-cartas">
+        <div class="modal-content-cartas">
+            <h2>Sortear uma carta!</h2>
 
+            <div class="card-options-container">
+                <div class="card-option"><span>ELIMINAR</span>0</div>
+                <div class="card-option"><span>ELIMINAR</span>1</div>
+                <div class="card-option"><span>ELIMINAR</span>2</div>
+                <div class="card-option"><span>ELIMINAR</span>3</div>
+            </div>
+
+            <button id="sortear-btn">Sortear</button>
+        </div>
+    </div>
+    <!-- ⬆️ FIM DO MODAL DAS CARTAS -->
 
     <script>
-
         function selectAnswer(btn) {
-
-            // Remove a classe 'selected' de todos os botões
-
             const allButtons = document.querySelectorAll('.answer-btn');
-
             allButtons.forEach(button => {
-
                 button.classList.remove('selected');
-
             });
-
-
-
-            // Adiciona a classe 'selected' apenas ao botão clicado
-
             btn.classList.add('selected');
-
         }
-
     </script>
-
-
 
     <script type="module" src="../scripts/game.js"></script>
 
-
-
 </body>
-
-
 
 </html>

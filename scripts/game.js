@@ -1,23 +1,21 @@
 // Importa a classe de perguntas
 import PerguntasClass from "./perguntas.js";
 
-
-
 // -------------------------------------------------------------------
 // 🎧 LÓGICA DE ÁUDIO
 // -------------------------------------------------------------------
 
 const componentesDoPc = [
-    "Gabinete",        // 1
-    "Fonte",           // 2
-    "SSD",             // 3
-    "Memória RAM",     // 4
-    "Placa-Mãe",       // 5
-    "Processador",     // 6
-    "Cooler",          // 7
-    "Monitor",         // 8
-    "Teclado e Mouse", // 9
-    "Placa de Vídeo"   // 10
+    "Gabinete",         // 1
+    "Fonte",            // 2
+    "SSD",              // 3
+    "Memória RAM",      // 4
+    "Placa-Mãe",        // 5
+    "Processador",      // 6
+    "Cooler",           // 7
+    "Monitor",          // 8
+    "Teclado e Mouse",  // 9
+    "Placa de Vídeo"    // 10
 ];
 
 
@@ -125,6 +123,21 @@ let selectedIndex = null;
 
 
 // -----------------------------------------------------------
+// 🃏 LÓGICA DE CARTAS (NOVO)
+// -----------------------------------------------------------
+
+let cartasUsadas = false; // Controla se a ajuda já foi usada
+const modalCartas = document.getElementById('modal-cartas'); // ID do modal
+const sortearBtn = document.getElementById('sortear-btn'); // ID do botão Sortear
+const btnCartas = document.querySelector('.btn-cards'); // Botão 🃏 CARTAS
+const cardElements = document.querySelectorAll('.card-option'); // As 4 cartas dentro do modal
+
+// 🚨 NOVO: Variável para controlar o loop da animação de sorteio
+let intervaloAnimacao; 
+const resultadosSorteio = [0, 1, 2, 3]; // O resultado de eliminações em cada carta
+
+
+// -----------------------------------------------------------
 // 🔮 FUNÇÃO DO PRÊMIO (10 imagens)
 // -----------------------------------------------------------
 // NO ARQUIVO: scripts/game.js (Substituir a função existente)
@@ -141,14 +154,14 @@ function atualizarPremio() {
 
     // O prêmio ganho fica visível na tela durante o primeiro setTimeout (3 segundos)
 
-    // 1. ESPERA INICIAL (3000ms): O prêmio ganho fica visível
+    // 1. ESPERA INICIAL (8000ms): O prêmio ganho fica visível (ajustado para dar tempo de terminar o áudio)
     setTimeout(() => {
         
         // 2. INICIA O FADE-OUT (Imagem e Texto)
         imgPremio.style.opacity = "0";
         textoPremio.style.opacity = "0"; 
         
-        // 3. AGUARDA O FADE-OUT (500ms) antes de trocar a imagem e o texto
+        // 3. AGUARDA O FADE-OUT (1000ms) antes de trocar a imagem e o texto
         setTimeout(() => {
             
             // 4. TROCA DE IMAGEM E TEXTO
@@ -164,9 +177,9 @@ function atualizarPremio() {
             imgPremio.style.opacity = "1";
             textoPremio.style.opacity = "1";
             
-        }, 1000); // 500ms: Tempo para o fade-out acontecer
+        }, 1000); // 1000ms: Tempo para o fade-out acontecer
         
-    }, 8000); // 3000ms: Tempo de exibição do prêmio ganho
+    }, 8000); // 8000ms: Tempo de exibição do prêmio ganho (duração do áudio + visualização)
 }
 // Embaralhar
 function embaralharArray(array) {
@@ -215,6 +228,114 @@ function exibirFeedbackErro(pergunta, indiceUsuario, indiceCorreto) {
     feedbackModal.style.display = 'flex';
 }
 
+
+// -------------------------------------------------------------------
+// 🃏 LÓGICA DAS CARTAS
+// -------------------------------------------------------------------
+
+function abrirModalCartas() {
+    // Só pode abrir se não foi usada e se o botão não está desabilitado por outro motivo
+    if (cartasUsadas || btnCartas.disabled) return; 
+
+    // 🚩 CORREÇÃO: Garante que qualquer animação anterior seja parada ao abrir o modal
+    if (intervaloAnimacao) {
+        clearInterval(intervaloAnimacao);
+    }
+
+    // Reseta a aparência das cartas para o estado inicial
+    cardElements.forEach(card => card.classList.remove('selected-card'));
+    
+    // Reabilita e reseta o texto do botão Sortear
+    sortearBtn.disabled = false;
+    sortearBtn.textContent = 'Sortear';
+    
+    modalCartas.style.display = 'flex';
+    actionsDiv.style.pointerEvents = 'none'; // Desabilita outras ações
+}
+
+function fecharModalCartas() {
+    modalCartas.style.display = 'none';
+    actionsDiv.style.pointerEvents = 'auto'; // Reabilita a seleção de resposta
+    
+    // 🚩 CORREÇÃO: Garante que o loop de animação pare ao fechar
+    if (intervaloAnimacao) {
+        clearInterval(intervaloAnimacao);
+    }
+}
+
+
+function aplicarEliminacao(numEliminacoes) {
+    const perguntaAtual = perguntas[atual];
+    const correta = perguntaAtual.correta; // Índice da resposta correta (0 a 3)
+
+    // Coleta os índices das respostas INCORRETAS
+    let incorretas = [0, 1, 2, 3].filter(i => i !== correta);
+
+    // Embaralha as incorretas para que a eliminação seja aleatória
+    embaralharArray(incorretas); 
+
+    // Seleciona as primeiras 'numEliminacoes' respostas a serem eliminadas
+    const aEliminar = incorretas.slice(0, numEliminacoes); 
+    
+    aEliminar.forEach(indice => {
+        const btn = document.querySelector(`.answer-btn[data-indice="${indice}"]`);
+        if (btn) {
+            // Aplica o estilo visual de eliminação (deve ser definido no CSS)
+            btn.classList.add('eliminada');
+            btn.disabled = true; // Desabilita o botão eliminado
+        }
+    });
+}
+
+function sortearCarta() {
+    // 1. Desabilita o sorteio e marca a ajuda como usada
+    sortearBtn.disabled = true;
+    sortearBtn.textContent = 'Sorteando...';
+    btnCartas.disabled = true;
+    btnCartas.classList.add('usada');
+    cartasUsadas = true;
+    
+    // 2. Remove qualquer destaque de seleção anterior de todas as cartas
+    cardElements.forEach(c => c.classList.remove('selected-card'));
+
+    let currentIndex = 0;
+    const tempoDeGiro = 100; // Velocidade do destaque em ms (para animação)
+    
+    // 3. 🚩 NOVO: Inicia o "Giro" rápido (destaque sequencial)
+    intervaloAnimacao = setInterval(() => {
+        // Remove destaque da carta anterior
+        cardElements[currentIndex].classList.remove('selected-card');
+        
+        // Vai para a próxima (circular)
+        currentIndex = (currentIndex + 1) % cardElements.length; 
+        
+        // Adiciona destaque na carta atual
+        cardElements[currentIndex].classList.add('selected-card');
+
+    }, tempoDeGiro);
+
+    // 4. 🚩 NOVO: Para o giro após 3 segundos e aplica o resultado
+    setTimeout(() => {
+        clearInterval(intervaloAnimacao); // Para o giro
+        
+        // Sorteia um índice aleatório (0 a 3)
+        const indiceSorteado = Math.floor(Math.random() * resultadosSorteio.length);
+        const numEliminacoes = resultadosSorteio[indiceSorteado];
+        
+        // 5. Aplica o destaque final na carta sorteada
+        cardElements.forEach(c => c.classList.remove('selected-card')); // Remove todos os destaques
+        cardElements[indiceSorteado].classList.add('selected-card'); // Destaca apenas a final
+
+        sortearBtn.textContent = `Você eliminou ${numEliminacoes} opções!`;
+
+        // 6. Aplica a eliminação no jogo após um breve momento
+        setTimeout(() => {
+            aplicarEliminacao(numEliminacoes); 
+            fecharModalCartas();
+        }, 1500); 
+
+    }, 3000); // Gira por 3 segundos
+}
 
 // -------------------------------------------------------------------
 // VERIFICAR RESPOSTA
@@ -332,14 +453,24 @@ function carregarPergunta() {
     feedbackModal.style.display = 'none';
     actionsDiv.style.pointerEvents = 'auto';
 
-    answerButtons.forEach(btn => btn.disabled = false);
+    // 🃏 Lógica do botão CARTAS
+    if (cartasUsadas) {
+        btnCartas.disabled = true;
+        btnCartas.classList.add('usada'); 
+    } else {
+        btnCartas.disabled = false;
+        btnCartas.classList.remove('usada');
+    }
 
-    audioFundoGame.play();
-
+    // Remove o estilo de eliminado e reabilita botões para a nova pergunta
     answerButtons.forEach(btn => {
-        btn.classList.remove("selected", "correct", "incorrect");
+        btn.disabled = false; // Reabilita todos antes de remover classes
+        btn.classList.remove("selected", "correct", "incorrect", "eliminada");
     });
     selectedIndex = null;
+
+
+    audioFundoGame.play();
 
     questionBox.classList.add('hide-text');
 
@@ -360,6 +491,12 @@ function carregarPergunta() {
 // -----------------------------------------------------------
 // EVENTOS DOS BOTÕES
 // -----------------------------------------------------------
+
+// Evento para abrir o modal de cartas
+btnCartas.addEventListener('click', abrirModalCartas);
+// Evento para sortear a carta
+sortearBtn.addEventListener('click', sortearCarta);
+
 answerButtons.forEach(btn => {
     
     btn.addEventListener('click', function (e) {
