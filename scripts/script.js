@@ -4,6 +4,7 @@ const audioComecar = document.getElementById('audioComecar');
 // Referência ao botão
 const botaoStart = document.getElementById('botaoStart');
 
+const botaoCreditos = document.getElementById('botaoCreditos');
 
 // Função Principal que Inicia a Música e o Jogo
 function iniciarJogoEAudio(event) {
@@ -46,6 +47,14 @@ if (botaoStart) {
     // Adiciona o listener único ao botão "Começar"
     // Note que agora usamos a função iniciarJogoEAudio com preventDefault
     botaoStart.addEventListener('click', iniciarJogoEAudio); 
+}
+
+// Listener do botão Créditos
+if (botaoCreditos) {
+    botaoCreditos.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = "../pages/creditos.html";
+    });
 }
 
 // ... (Resto do seu código JS, se houver) ...

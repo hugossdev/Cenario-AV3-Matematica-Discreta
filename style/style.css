@@ -57,7 +57,15 @@ body {
     line-height: 1.5;
 }
 
-/* Botão Começar */
+/* Imagem da Logo */
+#imgLogo{
+    width: 600px;
+    height: auto;
+}
+
+/* ------------------------------------------------------------------- */
+/* 🚀 BOTÃO PRINCIPAL (COMEÇAR) */
+/* ------------------------------------------------------------------- */
 .btn-start {
     display: inline-block;
     background-color: #238636; /* Verde estilo GitHub/Sucesso */
@@ -67,40 +75,80 @@ body {
     font-weight: 700;
     padding: 1rem 3rem;
     border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
     transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+    
+    /* Sombra mais suave e elevada com borda interna para profundidade */
+    box-shadow: 0 6px 15px rgba(35, 134, 54, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+    
+    cursor: pointer;
 }
 
 .btn-start:hover {
     background-color: #2ea043;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(35, 134, 54, 0.6);
+    
+    /* Sombra mais forte no hover */
+    box-shadow: 0 10px 25px rgba(35, 134, 54, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .btn-start:active {
     transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(35, 134, 54, 0.5); 
 }
 
-/* Rodapé */
+/* ------------------------------------------------------------------- */
+/* 📜 RODAPÉ (CRÉDITOS) */
+/* ------------------------------------------------------------------- */
 .footer {
     position: absolute;
-    bottom: 20px;
-    font-size: 0.9rem;
-    color: #484f58;
+    bottom: 10px; 
+    font-size: 0.9rem; 
+    color: #484f58; 
 }
+
 
 .footer a {
-    color: #58a6ff; /* Azul link */
-    text-decoration: none;
-    font-weight: 600;
+    display: inline-block;
+    
+    /* Cor azul discreta e coesa com o tema escuro */
+    background-color: #1f6feb; 
+    
+    color: #ffffff;
+    text-decoration: none; 
+    
+    /* Estilo e tamanho mais discretos para rodapé */
+    font-size: 0.9rem; 
+    font-weight: 500;
+    
+    padding: 8px 15px; 
+    
+    border-radius: 6px;
+    
+    box-shadow: none; 
+    
+    transition: all 0.2s ease;
+    border: 1px solid #30363d; /* Borda para contraste */
+    cursor: pointer;
 }
+
 
 .footer a:hover {
-    text-decoration: underline;
+    /* Azul mais escuro no hover */
+    background-color: #3168bf;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(31, 111, 235, 0.3); /* Sombra azul sutil */
 }
 
-/* Responsividade para celulares */
-@media (max-width: 600px) {
+
+.footer a:active {
+    transform: translateY(0);
+}
+
+/* ------------------------------------------------------------------- */
+/* 📱 RESPONSIVIDADE */
+/* ------------------------------------------------------------------- */
+@media (max-width: 768px) {
     .title {
         font-size: 2.5rem;
     }
@@ -112,10 +160,16 @@ body {
     .btn-start {
         width: 100%;
         max-width: 300px;
+        font-size: 1.25rem;
+        padding: 0.8rem 2rem;
     }
-}
+    
+    #imgLogo {
+        width: 90%;
+        max-width: 400px;
+    }
 
-#imgLogo{
-    width: 600px;
-    height: auto;
+    .footer {
+        bottom: 5px;
+    }
 }
