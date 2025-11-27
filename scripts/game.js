@@ -1,9 +1,25 @@
 // Importa a classe de perguntas
 import PerguntasClass from "./perguntas.js";
 
+
+
 // -------------------------------------------------------------------
 // 🎧 LÓGICA DE ÁUDIO
 // -------------------------------------------------------------------
+
+const componentesDoPc = [
+    "Gabinete",        // 1
+    "Fonte",           // 2
+    "SSD",             // 3
+    "Memória RAM",     // 4
+    "Placa-Mãe",       // 5
+    "Processador",     // 6
+    "Cooler",          // 7
+    "Monitor",         // 8
+    "Teclado e Mouse", // 9
+    "Placa de Vídeo"   // 10
+];
+
 
 // Referências de Áudio (IDs do game.html)
 const audioFundoGame = document.getElementById('audioFundoGame'); 
@@ -13,17 +29,14 @@ const audioCerta = document.getElementById('audioCerta');
 // 🚩 Referência para audioAplausos
 const audioAplausos = document.getElementById('audioAplausos');
 const audioErrada = document.getElementById('audioErrada');
-const botaoCreditos = document.getElementById('botaoCreditos');
 
 // Função para iniciar a música de fundo
 function iniciarMusicaFundo() {
     if (audioFundoGame) {
-        // Tenta dar play no áudio
         const playPromise = audioFundoGame.play();
 
         if (playPromise !== undefined) {
             playPromise.then(() => {
-                // Sucesso: Música iniciada
             }).catch(error => {
                 console.warn("A reprodução de áudio de fundo foi bloqueada: ", error);
             });
@@ -31,22 +44,8 @@ function iniciarMusicaFundo() {
     }
 }
 
-
-
-
-// --- INICIALIZAÇÃO E LISTENERS ---
-
-if (botaoStart) {
-    // Listener para o botão de Iniciar Jogo
-    botaoStart.addEventListener('click', iniciarJogoEAudio); 
-}
-
-
-
-// Função auxiliar para tocar o áudio de seleção
 function tocarAudioSelecao() {
     if (audioSelecao) {
-        // Reinicia o áudio para garantir que ele toque, mesmo em cliques rápidos
         audioSelecao.currentTime = 0; 
         audioSelecao.play().catch(error => {
             console.warn("Falha ao tocar áudio de seleção: ", error);
@@ -57,14 +56,13 @@ function tocarAudioSelecao() {
 function tocarAudioHeartbeat() {
     if (audioHeartbeat) {
         audioHeartbeat.currentTime = 0;
-        audioHeartbeat.loop = true; // Garante que toque durante os 3 segundos
+        audioHeartbeat.loop = true;
         audioHeartbeat.play().catch(error => {
             console.warn("Falha ao tocar áudio Heartbeat: ", error);
         });
     }
 }
 
-// Função para parar o Heartbeat e resetar
 function pararAudioHeartbeat() {
     if (audioHeartbeat) {
         audioHeartbeat.pause();
@@ -82,7 +80,6 @@ function tocarAudioCerta() {
     }
 }
 
-// Função para tocar audioAplausos
 function tocarAudioAplausos() {
     if (audioAplausos) {
         audioAplausos.currentTime = 0;
@@ -91,7 +88,6 @@ function tocarAudioAplausos() {
         });
     }
 }
-
 
 function tocarAudioErrada() {
     if (audioErrada) {
@@ -108,7 +104,6 @@ function tocarAudioErrada() {
 const questionText = document.querySelector(".question-text");
 const answerButtons = document.querySelectorAll(".answer-btn");
 const questionBox = document.querySelector(".question-box"); 
-// 🚩 Referência para a lista de respostas
 const answersList = document.querySelector(".answers-list"); 
 
 // Modal de feedback
@@ -118,7 +113,7 @@ const correctChoiceText = document.getElementById("correct-choice");
 const explanationText = document.getElementById("explanation-text");
 const startNewGameBtn = document.getElementById("start-new-game-btn");
 
-// Botões de Ação (Para implementar a lógica de confirmação)
+// Botões de Ação
 const confirmarBtn = document.querySelectorAll(".confirm-btn"); 
 const actionsDiv = document.querySelector(".actions"); 
 
@@ -126,9 +121,54 @@ const actionsDiv = document.querySelector(".actions");
 let atual = 0;
 const MAX_PERGUNTAS = 20;
 let acertosTotais = 0;
-let selectedIndex = null; 
+let selectedIndex = null;
 
-// ... (Função embaralharArray) ...
+
+// -----------------------------------------------------------
+// 🔮 FUNÇÃO DO PRÊMIO (10 imagens)
+// -----------------------------------------------------------
+// NO ARQUIVO: scripts/game.js (Substituir a função existente)
+
+function atualizarPremio() {
+    const imgPremio = document.getElementById("premio-img");
+    const textoPremio = document.getElementById("premio-texto"); 
+
+    if (!imgPremio || !textoPremio) return;
+
+    // 1. Calcular o número do PRÓXIMO prêmio a ser disputado
+    const proximoPremio = acertosTotais + 1;
+    const numeroPremio = Math.min(proximoPremio, componentesDoPc.length); 
+
+    // O prêmio ganho fica visível na tela durante o primeiro setTimeout (3 segundos)
+
+    // 1. ESPERA INICIAL (3000ms): O prêmio ganho fica visível
+    setTimeout(() => {
+        
+        // 2. INICIA O FADE-OUT (Imagem e Texto)
+        imgPremio.style.opacity = "0";
+        textoPremio.style.opacity = "0"; 
+        
+        // 3. AGUARDA O FADE-OUT (500ms) antes de trocar a imagem e o texto
+        setTimeout(() => {
+            
+            // 4. TROCA DE IMAGEM E TEXTO
+            imgPremio.src = `../images/premio${numeroPremio}.png`; 
+            
+            // Busca o nome do componente (Índice = número do prêmio - 1)
+            const nomeComponente = componentesDoPc[numeroPremio - 1]; 
+            
+            // 🚨 Atualiza o conteúdo do texto
+            textoPremio.textContent = `Pergunta ${numeroPremio}: Valendo ${nomeComponente}!`;
+
+            // 5. INICIA O FADE-IN (Imagem e Texto)
+            imgPremio.style.opacity = "1";
+            textoPremio.style.opacity = "1";
+            
+        }, 1000); // 500ms: Tempo para o fade-out acontecer
+        
+    }, 8000); // 3000ms: Tempo de exibição do prêmio ganho
+}
+// Embaralhar
 function embaralharArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -136,31 +176,30 @@ function embaralharArray(array) {
     }
 }
 
-// Carrega perguntas embaralhadas
+// Perguntas
 const perguntas = PerguntasClass.todasAsPerguntas;
 embaralharArray(perguntas);
 
-// Botão "Novo jogo"
+// Botão novo jogo
 startNewGameBtn.addEventListener('click', () => {
     window.location.href = "../index.html";
 });
 
 
-// 1. FUNÇÃO DE SELEÇÃO
+// -------------------------------------------------------------------
+// 1. SELEÇÃO DO BOTÃO
+// -------------------------------------------------------------------
 function handleSelection(clickedButton) {
-    // 3. Guarda o índice selecionado no estado do jogo
     selectedIndex = parseInt(clickedButton.dataset.indice);
-    
-    // 4. 🔊 TOCA O ÁUDIO DE SELEÇÃO
     tocarAudioSelecao();
 }
 
 
-// 2. FUNÇÃO QUE CHAMA A LÓGICA DO JOGO
+// -------------------------------------------------------------------
+// 2. CONFIRMAR
+// -------------------------------------------------------------------
 function handleConfirmation() {
-    // Verifica se alguma opção foi selecionada
     if (selectedIndex !== null) {
-        // PAUSA A MÚSICA DE FUNDO E INICIA O HEARTBEAT
         audioFundoGame.pause(); 
         tocarAudioHeartbeat();
         verificarResposta(selectedIndex);
@@ -168,111 +207,108 @@ function handleConfirmation() {
 }
 
 
-// Exibe modal de erro
+// Modal erro
 function exibirFeedbackErro(pergunta, indiceUsuario, indiceCorreto) {
-    // A música de fundo já deve estar pausada
     userChoiceText.innerHTML = pergunta.opcoes[indiceUsuario];
     correctChoiceText.innerHTML = pergunta.opcoes[indiceCorreto];
     explanationText.innerHTML = pergunta.explicacao;
     feedbackModal.style.display = 'flex';
 }
 
-// -----------------------------------------------------------
-// VERIFICA RESPOSTA (Lógica do jogo) - CORRIGIDA!
-// -----------------------------------------------------------
+
+// -------------------------------------------------------------------
+// VERIFICAR RESPOSTA
+// -------------------------------------------------------------------
 function verificarResposta(indiceUsuario) {
     const perguntaAtual = perguntas[atual];
     const correta = perguntaAtual.correta;
 
     const clickedButton = document.querySelector(`.answer-btn[data-indice="${indiceUsuario}"]`);
 
-    // A. ATIVA O EFEITO FLASH NO BOTÃO SELECIONADO
     if (clickedButton) {
         clickedButton.classList.add('selected'); 
         clickedButton.classList.add('flash-processing'); 
     }
 
     actionsDiv.style.pointerEvents = 'none';
-
-    answerButtons.forEach(btn => {
-        btn.disabled = true;
-    });
+    answerButtons.forEach(btn => btn.disabled = true);
 
     setTimeout(() => {
-    pararAudioHeartbeat();
+        pararAudioHeartbeat();
 
-    // Limpa a animação flash
-    if (clickedButton) {
-        clickedButton.classList.remove('flash-processing');
-        clickedButton.classList.remove('selected'); 
-    }
+        if (clickedButton) {
+            clickedButton.classList.remove('flash-processing');
+            clickedButton.classList.remove('selected'); 
+        }
 
-    const btnCorreto = document.querySelector(`.answer-btn[data-indice="${correta}"]`);
+        const btnCorreto = document.querySelector(`.answer-btn[data-indice="${correta}"]`);
 
-    if (indiceUsuario === correta) {
-        // Correta: mantém verde
-        if (clickedButton) clickedButton.classList.add("correct");
+        // -------------------------
+        // RESPOSTA CERTA
+        // -------------------------
+        if (indiceUsuario === correta) {
 
-        acertosTotais++;
-        tocarAudioCerta(); 
+            if (clickedButton) clickedButton.classList.add("correct");
+
+            acertosTotais++;
+
+            atualizarPremio(); // 🔥 AQUI ENTRA O PRÊMIO
+
+            tocarAudioCerta(); 
         
-        audioCerta.onended = () => {
-            tocarAudioAplausos();
-            audioAplausos.onended = () => {
-                setTimeout(() => {
-                    if (acertosTotais >= MAX_PERGUNTAS) {
-                        audioFundoGame.pause(); 
-                        window.location.href = "../pages/endgame.html";
-                    } else {
-                        atual++;
-                        carregarPergunta();
-                    }
-                    audioCerta.onended = null; 
-                    audioAplausos.onended = null; 
-                }, 1000);
+            audioCerta.onended = () => {
+                tocarAudioAplausos();
+                audioAplausos.onended = () => {
+                    setTimeout(() => {
+                        if (acertosTotais >= MAX_PERGUNTAS) {
+                            audioFundoGame.pause(); 
+                            window.location.href = "../pages/endgame.html";
+                        } else {
+                            atual++;
+                            carregarPergunta();
+                        }
+                        audioCerta.onended = null; 
+                        audioAplausos.onended = null; 
+                    }, 1000);
+                };
             };
-        };
 
-    } else {
-        // Errada: aplica cinza no clicado
-        if (clickedButton) clickedButton.classList.add("incorrect");
+        } 
+        
+        // -------------------------
+        // RESPOSTA ERRADA
+        // -------------------------
+        else {
 
-        // Verde no correto
-        if (btnCorreto) btnCorreto.classList.add("correct");
+            if (clickedButton) clickedButton.classList.add("incorrect");
+            if (btnCorreto) btnCorreto.classList.add("correct");
 
-        tocarAudioErrada();
+            tocarAudioErrada();
 
-        // Espera 1,5s antes de mostrar o modal
-        setTimeout(() => {
-            exibirFeedbackErro(perguntaAtual, indiceUsuario, correta);
-        }, 3500);
-    }
+            setTimeout(() => {
+                exibirFeedbackErro(perguntaAtual, indiceUsuario, correta);
+            }, 3500);
+        }
 
-}, 3000); // Tempo do flash
-
+    }, 2000);
 
     selectedIndex = null; 
 }
 
 
 // -----------------------------------------------------------
-// 🔑 FUNÇÃO para forçar a animação (CORREÇÃO DE RESET)
+// RESET + ANIMAÇÃO
 // -----------------------------------------------------------
 function aplicarAnimacaoPergunta() {
-    // 1. Remove a classe de animação de todos os elementos
     questionBox.classList.remove('animate-in');
     answersList.classList.remove('animate-in');
     answerButtons.forEach(btn => btn.classList.remove('animate-in'));
 
-    // Força o navegador a recalcular o layout (reflow) para garantir o reset da animação
     void questionBox.offsetWidth;
-    answerButtons.forEach(btn => void btn.offsetWidth); 
-    
+    answerButtons.forEach(btn => void btn.offsetWidth);
 
-    // Remove a classe que esconde o texto
     questionBox.classList.remove('hide-text');
 
-    // 2. Re-adiciona a classe de animação no próximo frame
     requestAnimationFrame(() => {
         questionBox.classList.add('animate-in');
         answersList.classList.add('animate-in');
@@ -281,10 +317,12 @@ function aplicarAnimacaoPergunta() {
 }
 
 
-// Carrega pergunta
+// -----------------------------------------------------------
+// CARREGAR PERGUNTA
+// -----------------------------------------------------------
 function carregarPergunta() {
     if (atual >= perguntas.length) {
-        audioFundoGame.pause(); // 🛑 PAUSA ANTES DE SAIR
+        audioFundoGame.pause();
         window.location.href = "../pages/endgame.html";
         return;
     }
@@ -292,29 +330,20 @@ function carregarPergunta() {
     const q = perguntas[atual];
 
     feedbackModal.style.display = 'none';
-    actionsDiv.style.pointerEvents = 'auto'; // Reabilita ações
-    
-    // 🚩 Re-habilita todos os botões
-    answerButtons.forEach(btn => {
-        btn.disabled = false;
-    });
+    actionsDiv.style.pointerEvents = 'auto';
 
-    audioFundoGame.play(); // ▶️ RETOMA O ÁUDIO DE FUNDO
+    answerButtons.forEach(btn => btn.disabled = false);
 
-    // RESET visual e de estado
+    audioFundoGame.play();
+
     answerButtons.forEach(btn => {
-        // Remove 'selected' (se por acaso permaneceu), 'correct' e 'incorrect'
         btn.classList.remove("selected", "correct", "incorrect");
     });
     selectedIndex = null;
-    
-    // 🚩 1. PASSO: OCULTA O TEXTO DA PERGUNTA ANTERIOR
+
     questionBox.classList.add('hide-text');
 
-    // 2. PASSO: Espera 200ms (tempo da transição de opacidade do texto)
     setTimeout(() => {
-        
-        // 3. PASSO: Carrega o novo conteúdo
         questionText.innerHTML = q.pergunta;
 
         answerButtons.forEach((btn, index) => {
@@ -322,35 +351,29 @@ function carregarPergunta() {
             btn.dataset.indice = index;
         });
 
-        // 4. PASSO: Aplica a animação
         aplicarAnimacaoPergunta();
         
-    }, 200); // 200 milissegundos é um bom tempo para transições rápidas
+    }, 200);
 }
 
 
-// --- INICIALIZAÇÃO DO JOGO E LISTENERS ---
-
-// Adiciona o listener principal a todos os botões de resposta
+// -----------------------------------------------------------
+// EVENTOS DOS BOTÕES
+// -----------------------------------------------------------
 answerButtons.forEach(btn => {
     
     btn.addEventListener('click', function (e) {
-        // Garante que o clique não foi no botão de confirmar e que o botão não está desabilitado.
+        
         if (!e.target.classList.contains('confirm-btn') && !btn.disabled) {
             
-            // Remove a classe 'selected' de todos os outros botões (implementação da função selectAnswer)
-            answerButtons.forEach(button => {
-                button.classList.remove('selected');
-            });
+            answerButtons.forEach(button => button.classList.remove('selected'));
 
-            // Adiciona a classe 'selected' apenas ao botão clicado
             this.classList.add('selected');
             
             handleSelection(this);
         }
     });
-    
-    // LÓGICA DO JOGO: O botão "Confirmar" é o que realmente submete
+
     const confirmButton = btn.querySelector('.confirm-btn');
     if (confirmButton) {
         confirmButton.addEventListener('click', handleConfirmation);
@@ -358,6 +381,8 @@ answerButtons.forEach(btn => {
 });
 
 
-// Inicializa o jogo E O ÁUDIO DE FUNDO!
+// -----------------------------------------------------------
+// START
+// -----------------------------------------------------------
 carregarPergunta(); 
 iniciarMusicaFundo();

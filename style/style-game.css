@@ -499,3 +499,75 @@ body::before {
 .answer-btn.incorrect .badge {
     color: #000000 !important; /* texto claro sobre cinza */
 }
+
+/* ================================
+   ÁREA DO PRÊMIO NA PARTE DIREITA
+   ================================ */
+
+.character-area {
+    flex: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+#premio-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container-premio {
+    /* 🔑 ESSENCIAL: Permite que o texto dentro dele seja posicionado de forma absoluta */
+    position: relative; 
+    
+    /* Os estilos de flexbox já estavam definidos, mas é bom reforçar a centralização */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* 2. Estilo e Posição do Texto do Prêmio */
+#premio-texto {
+    /* Posição */
+    position: absolute;
+    top: 5%; /* Ajusta a altura da caixa, 5% do topo */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+    z-index: 10; /* Garante que fique acima da imagem */
+    
+    /* Estilo Visual */
+    color: white; 
+    background-color: rgba(139, 0, 0, 0.9); /* Vermelho escuro semi-transparente */
+    border: 1px solid #ff3333;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 1.3em; 
+    font-weight: 900;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 80%; 
+    max-width: 350px;
+    
+    /* 🔑 ESSENCIAL: Transição para o fade-in/out */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 3. Aplica a transição de opacidade à imagem também (para sincronizar com o JS) */
+#premio-img {
+    /* 🔑 ESSENCIAL: Aplica a transição de opacidade usada no JavaScript (500ms) */
+    transition: opacity 0.5s ease-in-out; 
+    
+    /* Mantenha seus estilos originais da imagem: */
+    width: 90%;
+    height: auto;
+    max-height: 95%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+

@@ -83,39 +83,20 @@ body {
 
 /* Rodapé */
 .footer {
-
-position: absolute;
-bottom: 5px;
-font-size: 0.9rem; 
-color: #484f58; 
+    position: absolute;
+    bottom: 20px;
+    font-size: 0.9rem;
+    color: #484f58;
 }
-
 
 .footer a {
-
-display: inline-block;
-background-color: #00e1ff; 
-color: #ffffff;
-text-decoration: none; 
-font-size: 1.5rem;
-font-weight: 300;
-padding: 10px;
-border-radius: 7px;
-transition: all 0.2s ease;
-box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+    color: #58a6ff; /* Azul link */
+    text-decoration: none;
+    font-weight: 600;
 }
-
 
 .footer a:hover {
- background-color: #367994;
-transform: translateY(-2px);
-box-shadow: 0 6px 20px rgba(35, 134, 54, 0.6);
-
-}
-
-
-.footer a:active {
-transform: translateY(0);
+    text-decoration: underline;
 }
 
 /* Responsividade para celulares */
