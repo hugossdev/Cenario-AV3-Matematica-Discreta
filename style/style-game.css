@@ -1,4 +1,3 @@
-/* Reset Básico */
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +12,6 @@ body {
     overflow: hidden;
 }
 
-/* Fundo com efeito Grid (Estilo Tron/Show do Milhão) */
 body::before {
     content: "";
     position: absolute;
@@ -29,7 +27,6 @@ body::before {
     pointer-events: none;
 }
 
-/* Layout Principal: Divide a tela em 60% Jogo / 40% Personagem */
 .main-container {
     display: flex;
     height: 100%;
@@ -40,7 +37,6 @@ body::before {
 
 .game-area {
     flex: 1.2;
-    /* Ocupa um pouco mais da metade */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,15 +46,12 @@ body::before {
 
 .character-area {
     flex: 0.8;
-    /* Espaço para o personagem */
-    /* Apenas para visualização temporária da área */
     border-left: 1px dashed rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: end;
     justify-content: center;
 }
 
-/* --- CAIXA DA PERGUNTA --- */
 .question-box {
     background: linear-gradient(180deg, #d10000 0%, #8a0000 100%);
     padding: 2rem;
@@ -74,7 +67,6 @@ body::before {
     text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* --- LISTA DE RESPOSTAS --- */
 .answers-list {
     display: flex;
     flex-direction: column;
@@ -85,7 +77,6 @@ body::before {
     background: linear-gradient(180deg, #bf0000 0%, #7d0000 100%);
     border: 2px solid #e04f4f;
     border-radius: 50px;
-    /* Bordas bem arredondadas */
     padding: 0.8rem 1.5rem;
     display: flex;
     align-items: center;
@@ -100,7 +91,6 @@ body::before {
     filter: brightness(1.2);
 }
 
-/* Bolinha do número (Badge) */
 .answer-btn .badge {
     background: white;
     color: #001f60;
@@ -122,17 +112,14 @@ body::before {
     text-align: left;
 }
 
-/* --- RODAPÉ E AÇÕES --- */
 .game-footer {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* Alinha tudo à direita */
     gap: 10px;
 }
 
-/* Caixa Dourada do Prêmio */
 .prize-container {
     display: flex;
     flex-direction: column;
@@ -158,7 +145,6 @@ body::before {
     text-transform: uppercase;
 }
 
-/* Botões inferiores (Pular, Cartas, Parar) */
 .actions {
     display: flex;
     gap: 1rem;
@@ -185,16 +171,9 @@ body::before {
     filter: brightness(1.1);
 }
 
-/* ========================================================= */
-/* ESTILOS ATUALIZADOS PARA OS BOTÕES DE AÇÃO (ACTIVE STATE) */
-/* ========================================================= */
-
-/* --- 🏃 ESTILO ATIVO PARA O BOTÃO PULAR (Laranja/Âmbar) --- */
 .btn-skip {
-    /* Gradiente Laranja/Âmbar: Sugere sacrifício/alerta */
     background: linear-gradient(to bottom, #FFD700, #FF8C00);
     color: #333;
-    /* Texto escuro para alto contraste */
     border: 3px solid #FFA500;
     box-shadow: 0 4px 0 #CC7A00;
 
@@ -213,9 +192,7 @@ body::before {
     filter: brightness(1.1);
 }
 
-/* --- 🃏 ESTILO ATIVO PARA O BOTÃO CARTAS (Roxo/Violeta) --- */
 .btn-cards {
-    /* Gradiente Roxo/Violeta Intenso: Sugere poder especial/sorte */
     background: linear-gradient(to bottom, #8A2BE2, #9932CC);
     color: white;
     border: 3px solid #6A5ACD;
@@ -232,49 +209,29 @@ body::before {
     background: linear-gradient(to bottom, #a32a2a, #5c1212);
 }
 
-/* ========================================================= */
-/* ESTILOS PARA BOTÕES DE AÇÃO 'USADOS' (NÃO-PRETO, APENAS APAGADO) */
-/* ========================================================= */
-
 .btn-skip.used,
 .btn-cards.usada {
-    /* Aparência de Esgotado: Gradiente Cinza Escuro/Preto Apagado */
     background: linear-gradient(to bottom, #303030, #1a1a1a) !important;
     color: #888 !important;
-    /* Texto cinza claro */
     border: 2px solid #555 !important;
-    /* Borda cinza */
     box-shadow: none !important;
-    /* Remove a sombra 3D */
 
-    /* Funcionalidade de Desabilitação */
     opacity: 1 !important;
-    /* Mantém 100% de opacidade para melhor legibilidade */
     cursor: not-allowed !important;
     pointer-events: none !important;
     filter: none !important;
     transform: none !important;
     transition: all 0.2s ease-out !important;
-    /* Garante uma transição suave */
 }
 
-/* Garante que o texto/ícone não herdem cores conflitantes */
 .btn-skip.used span,
 .btn-cards.usada span {
     color: #888 !important;
     font-weight: 500 !important;
-    /* Reduz a força para parecer esgotado */
 }
-
-
-/* --- Limpeza de estilos desnecessários/conflitantes do código anterior --- */
-
-/* As seguintes regras foram removidas ou simplificadas, pois entravam em conflito */
-/* com a nova regra de opacidade (principalmente as que forçavam o fundo preto) */
 
 .action-btn.btn-cards.usada,
 .action-btn[disabled] {
-    /* Mantido apenas para compatibilidade de regras antigas, mas o bloco acima é o principal */
     transform: none;
     filter: none;
     transition: none;
@@ -288,7 +245,6 @@ body::before {
 }
 
 
-/* Responsividade para telas menores */
 @media (max-width: 768px) {
     .main-container {
         flex-direction: column;
@@ -301,7 +257,6 @@ body::before {
 
     .character-area {
         display: none;
-        /* Esconde a área do personagem no celular */
     }
 
     .actions {
@@ -313,27 +268,21 @@ body::before {
     }
 }
 
-/* --- Estilos para o Modal de Feedback --- */
 .modal-overlay {
-    /* Posição fixa para cobrir a tela inteira */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.85);
-    /* Fundo escuro e semi-transparente */
     display: none;
-    /* Começa oculto */
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    /* Garante que fique acima de tudo */
 }
 
 .modal-content {
     background-color: #2e3b4e;
-    /* Cor do seu tema */
     color: #fff;
     padding: 30px;
     border-radius: 12px;
@@ -342,12 +291,10 @@ body::before {
     width: 90%;
     text-align: center;
     border: 3px solid #f44336;
-    /* Borda vermelha para erro */
 }
 
 .modal-content h3 {
     color: #F44336;
-    /* Vermelho */
     margin-bottom: 20px;
     font-size: 1.5em;
 }
@@ -359,7 +306,6 @@ body::before {
 
 .modal-content strong {
     color: #FFC107;
-    /* Amarelo para destaque */
 }
 
 .explanation-title {
@@ -372,7 +318,6 @@ body::before {
     padding: 10px 20px;
     margin-top: 20px;
     background-color: #4CAF50;
-    /* Verde para começar */
     color: white;
     border: none;
     border-radius: 6px;
@@ -385,48 +330,72 @@ body::before {
     background-color: #45a049;
 }
 
-/* --- EFEITOS DE SELEÇÃO E CONFIRMAÇÃO --- */
-
-/* Ajuste no botão pai para posicionamento do Confirmar */
-.answer-btn {
-    position: relative;
-    /* FUNDAMENTAL para que o .confirm-btn funcione */
-    overflow: hidden;
-    /* Manter o restante do seu CSS para .answer-btn */
+#skip-confirm-modal .modal-content {
+    border: 3px solid #FFA500;
+    background-color: #3e2b10;
 }
 
-/* 1. ESTADO SELECIONADO (Classe .selected adicionada via JS) */
+#skip-confirm-modal h3 {
+    color: #FFD700;
+}
+
+#skip-confirm-modal p {
+    color: #f0f0f0;
+}
+
+.skip-confirm-actions {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#confirm-skip-btn {
+    background: linear-gradient(to bottom, #FF8C00, #CC7A00);
+    border: 2px solid #FFD700;
+}
+
+#confirm-skip-btn:hover {
+    background: linear-gradient(to bottom, #FFA500, #E68A00);
+}
+
+#cancel-skip-btn {
+    background: linear-gradient(to bottom, #555, #333);
+    border: 2px solid #888;
+}
+
+#cancel-skip-btn:hover {
+    background: linear-gradient(to bottom, #666, #444);
+}
+
+.answer-btn {
+    position: relative;
+    overflow: hidden;
+}
+
 .answer-btn.selected {
-    /* Gradiente Dourado/Amarelo */
     background: linear-gradient(180deg, #ffd700 0%, #e6c200 100%);
     border-color: #ffe66d;
     transform: scale(1.02);
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    /* Retirando o hover default que pode conflitar quando selecionado */
     filter: none;
 }
 
-/* Muda a cor do texto e do badge para preto para dar contraste no amarelo */
 .answer-btn.selected .text,
 .answer-btn.selected .badge {
     color: #000;
 }
 
 .answer-btn.selected .badge {
-    /* Ajusta a cor do texto do badge para preto */
     color: #000;
 }
 
-
-/* 2. BOTÃO CONFIRMAR (Oculto por padrão) */
 .confirm-btn {
     display: none;
-    /* Escondido inicialmente */
     position: absolute;
     right: 0;
     top: 0;
     height: 100%;
-    /* Gradiente Verde (Cor do Confirmar na imagem) */
     background: linear-gradient(to bottom, #4CAF50, #368739);
     color: white;
     font-weight: bold;
@@ -437,21 +406,15 @@ body::before {
     border-left: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
     animation: slideInRight 0.3s ease-out;
-    /* Animação de entrada */
     width: 20%;
-    /* Define a largura para que o botão tome um espaço fixo */
     min-width: 120px;
     font-size: 1.1rem;
 }
 
-/* 3. TORNAR VISÍVEL: Quando o pai (.answer-btn) tiver a classe .selected */
 .answer-btn.selected .confirm-btn {
     display: flex;
-    /* Torna visível e usa flex para alinhar o texto */
 }
 
-
-/* Animação para o botão confirmar deslizar (Opcional, mas dá um toque visual) */
 @keyframes slideInRight {
     from {
         transform: translateX(100%);
@@ -461,10 +424,6 @@ body::before {
         transform: translateX(0);
     }
 }
-
-/* ---------------------------------------------------------------------- */
-/* --- CORREÇÃO DEFINITIVA: ANIMAÇÃO DE FLASH (USANDO BRILHO/FILTRO) --- */
-/* ---------------------------------------------------------------------- */
 
 @keyframes flash-overlay {
 
@@ -478,7 +437,6 @@ body::before {
     }
 }
 
-/* 2. Configuração do pseudo-elemento */
 .answer-btn.flash-processing {
     position: relative;
     overflow: hidden;
@@ -489,18 +447,12 @@ body::before {
     position: absolute;
     inset: 0;
     background: rgba(255, 255, 255, 0.85);
-    /* brilho branco */
     opacity: 0;
     animation: flash-overlay 0.15s linear 15;
     pointer-events: none;
     border-radius: inherit;
 }
 
-/* ======================================================= */
-/* 🔑 ANIMAÇÃO DE APARECIMENTO (SLIDE-IN) */
-/* ======================================================= */
-
-/* 1. Define a animação de deslize (Slide-in) */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -513,50 +465,35 @@ body::before {
     }
 }
 
-/* 2. Estilo para esconder o texto durante a troca de pergunta */
 .question-box.hide-text .question-text {
     opacity: 0;
     transition: opacity 0.2s ease-out;
 }
 
-/* 3. ESTADO INICIAL DOS ELEMENTOS ANTES DA ANIMAÇÃO (Apenas para o reset/inicialização) */
-
-/* A. Question Box - Estado padrão (não animado) */
 .question-box {
     opacity: 1;
     transform: translateX(0);
     transition: all 0.2s ease-in-out;
 }
 
-/* B. Botões individuais - Estado padrão (não animado) */
 .answer-btn {
-    /* Estado visual final, para quando a animação terminar e a classe .animate-in for removida */
     opacity: 1;
     transform: translateX(0);
 }
 
-/* 4. APLICAÇÃO DA ANIMAÇÃO (QUANDO O JS ADICIONA .animate-in) */
-
-/* A. Question Box animado */
 .question-box.animate-in {
-    /* 🚩 NOVO: Define o estado inicial da animação aqui, para que o navegador a re-execute. */
     opacity: 0;
     transform: translateX(-100%);
-    /* Aplica a animação: */
     animation: slideIn 0.8s ease-out forwards;
 }
 
 
-/* B. Botões individuais animados com delay */
 .answer-btn.animate-in {
-    /* 🚩 NOVO: Define o estado inicial da animação aqui. */
     opacity: 0;
     transform: translateX(-100%);
-    /* Aplica a animação de base */
     animation: slideIn 1s ease-out forwards;
 }
 
-/* C. Define o atraso individual para cada botão animado */
 .answer-btn:nth-child(1).animate-in {
     animation-delay: 0.1s;
 }
@@ -573,10 +510,6 @@ body::before {
     animation-delay: 0.7s;
 }
 
-/* ======================================================= */
-/* ESTADO FINAL VERDE (após o flash) */
-/* ======================================================= */
-
 .answer-btn.correct {
     background: linear-gradient(180deg, #4CAF50 0%, #2e7d32 100%);
     border-color: #a8ffb0;
@@ -588,13 +521,10 @@ body::before {
 .answer-btn.correct .text,
 .answer-btn.correct .badge {
     color: #000 !important;
-    /* contraste do texto */
 }
 
-/* Botão marcado errado */
 .answer-btn.incorrect {
     background: #555 !important;
-    /* cinza escuro */
     border-color: #000000 !important;
     color: #000000 !important;
     transform: scale(1.02);
@@ -604,12 +534,7 @@ body::before {
 .answer-btn.incorrect .text,
 .answer-btn.incorrect .badge {
     color: #000000 !important;
-    /* texto claro sobre cinza */
 }
-
-/* ================================
-    ÁREA DO PRÊMIO NA PARTE DIREITA
-    ================================ */
 
 .character-area {
     flex: 0.8;
@@ -628,10 +553,7 @@ body::before {
 }
 
 #container-premio {
-    /* 🔑 ESSENCIAL: Permite que o texto dentro dele seja posicionado de forma absoluta */
     position: relative;
-
-    /* Os estilos de flexbox já estavam definidos, mas é bom reforçar a centralização */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -639,22 +561,14 @@ body::before {
     height: 100%;
 }
 
-/* 2. Estilo e Posição do Texto do Prêmio */
 #premio-texto {
-    /* Posição */
     position: absolute;
     top: 5%;
-    /* Ajusta a altura da caixa, 5% do topo */
     left: 50%;
     transform: translateX(-50%);
-    /* Centraliza horizontalmente */
     z-index: 10;
-    /* Garante que fique acima da imagem */
-
-    /* Estilo Visual */
     color: white;
     background-color: rgba(139, 0, 0, 0.9);
-    /* Vermelho escuro semi-transparente */
     border: 1px solid #ff3333;
     padding: 8px 15px;
     border-radius: 8px;
@@ -664,17 +578,11 @@ body::before {
     text-align: center;
     width: 80%;
     max-width: 350px;
-
-    /* 🔑 ESSENCIAL: Transição para o fade-in/out */
     transition: opacity 0.5s ease-in-out;
 }
 
-/* 3. Aplica a transição de opacidade à imagem também (para sincronizar com o JS) */
 #premio-img {
-    /* 🔑 ESSENCIAL: Aplica a transição de opacidade usada no JavaScript (500ms) */
     transition: opacity 0.5s ease-in-out;
-
-    /* Mantenha seus estilos originais da imagem: */
     width: 90%;
     height: auto;
     max-height: 95%;
@@ -682,9 +590,6 @@ body::before {
     border-radius: 10px;
 }
 
-/* ------------------------------------------------------------------- */
-/* 🃏 ESTILOS DO MODAL CARTAS */
-/* ------------------------------------------------------------------- */
 #modal-cartas {
     position: fixed;
     top: 0;
@@ -692,25 +597,18 @@ body::before {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
-    /* Fundo escuro mais opaco */
     display: none;
-    /* Inicia oculto, só o JS exibe */
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
 .modal-content-cartas {
-    /* NOVO FUNDO: Azul Marinho/Roxo Profundo */
     background: linear-gradient(145deg, #1c0f38, #0a0515);
-
-    /* NOVA BORDA: Verde Elétrico/Ciano */
     border: 3px solid #00ffc4;
     border-radius: 15px;
     padding: 30px;
     text-align: center;
-
-    /* NOVA SOMBRA/BRILHO: Verde Elétrico/Ciano */
     box-shadow: 0 10px 40px rgba(0, 255, 196, 0.4);
     max-width: 500px;
     width: 90%;
@@ -720,7 +618,6 @@ body::before {
 
 .modal-content-cartas h2 {
     color: #00ffc4;
-    /* Título em verde elétrico */
     font-size: 1.8rem;
     margin-bottom: 20px;
 }
@@ -734,7 +631,6 @@ body::before {
 
 .card-option {
     background-color: #f0f0f0;
-    /* Carta clara */
     color: #1b2845;
     width: 80px;
     height: 120px;
@@ -757,20 +653,17 @@ body::before {
 }
 
 .card-option.selected-card {
-    /* CORREÇÃO: Borda e brilho da carta selecionada em Dourado/Amarelo Forte */
     border-color: #ffcc00;
     transform: scale(1.1);
     box-shadow: 0 0 20px #ffcc00;
 }
 
-/* Estilo do botão Sortear dentro do modal */
 #sortear-btn {
     margin-top: 30px;
     width: 100%;
     padding: 15px;
     font-size: 1.2rem;
     font-weight: 700;
-    /* NOVO: Botão Sortear em Ciano/Verde Elétrico */
     background-color: #00ffc4;
     color: #1b2845;
     border: none;
@@ -781,29 +674,44 @@ body::before {
 
 #sortear-btn:hover:not(:disabled) {
     background-color: #00e0b3;
-    /* Tonalidade mais escura no hover */
 }
 
-/* ------------------------------------------------------------------- */
-/* ❌ ESTILO PARA RESPOSTAS ELIMINADAS (USANDO A OPÇÃO QUE MANTÉM O ESPAÇO) */
-/* ------------------------------------------------------------------- */
 .answer-btn.eliminada {
-    /* 1. Fica invisível e não interage, mas mantem a altura */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.5s, visibility 0.5s;
-    /* 2. Remove a linha (opcional) */
     text-decoration: none;
 }
 
-/* Opcional: Garante que os elementos internos sumam junto, para o caso de algum estilo sobrepor o pai */
 .answer-btn.eliminada .badge,
 .answer-btn.eliminada .text {
     opacity: 0;
     transition: opacity 0.3s;
 }
 
-/* ------------------------------------------------------------------- */
-/* FIM DOS ESTILOS */
-/* ------------------------------------------------------------------- */
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+
+    background: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s, transform 0.2s;
+    z-index: 1001;
+}
+
+.close-modal-btn:hover {
+    background: #CC0000;
+    transform: scale(1.1);
+}

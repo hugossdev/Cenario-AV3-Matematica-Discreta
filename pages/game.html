@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Show</title>
+    <title>Quiz</title>
     <link rel="stylesheet" href="../style/style-game.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
@@ -124,9 +124,9 @@
         </div>
     </div>
 
-    <!-- ⬇️ MODAL DAS CARTAS ADICIONADO AQUI -->
     <div id="modal-cartas">
         <div class="modal-content-cartas">
+            <button id="close-cards-modal" class="close-modal-btn">X</button>
             <h2>Sortear uma carta!</h2>
 
             <div class="card-options-container">
@@ -139,8 +139,16 @@
             <button id="sortear-btn">Sortear</button>
         </div>
     </div>
-    <!-- ⬆️ FIM DO MODAL DAS CARTAS -->
-
+    <div id="skip-confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3 id="skip-modal-title">Tem certeza que deseja pular?</h3>
+            <p>Você só pode pular **uma vez** por jogo.</p>
+            <div class="skip-confirm-actions">
+                <button id="confirm-skip-btn" class="action-btn">Sim, Pular</button>
+                <button id="cancel-skip-btn" class="action-btn cancel-btn">Não, Voltar</button>
+            </div>
+        </div>
+    </div>
     <script>
         function selectAnswer(btn) {
             const allButtons = document.querySelectorAll('.answer-btn');
